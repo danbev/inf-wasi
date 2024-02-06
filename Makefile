@@ -33,3 +33,10 @@ component:
 
 inspect-wit:
 	wasm-tools component wit target/llm-wasi-component.wasm
+
+build-rust-bindings:
+	cd rust && cargo build --release
+
+run-rust-bindings:
+	cd rust && cargo run --release
+
