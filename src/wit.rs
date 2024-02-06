@@ -11,4 +11,8 @@ impl Guest for Exports {
     fn version() -> String {
         crate::version().to_string()
     }
+
+    fn inference() -> String {
+        crate::inference().to_string()
+    }
 }
