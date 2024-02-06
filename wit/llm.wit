@@ -1,0 +1,5 @@
+package llm:wasi;
+
+world llm {
+  export version: func() -> string;
+}

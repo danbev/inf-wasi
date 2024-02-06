@@ -5,4 +5,8 @@ edition = "2021"
 
 [dependencies]
 serde_json = "1.0"
-wasi-nn = { git = "https://github.com/second-state/wasmedge-wasi-nn", branch = "ggml" }
+#wasi-nn = { git = "https://github.com/second-state/wasmedge-wasi-nn", branch = "ggml" }
+wit-bindgen = { version = "0.17.0", default-features = true, features = ['macros'] }
+
+[lib]
+crate-type = ["cdylib"]

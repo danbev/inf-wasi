@@ -24,4 +24,12 @@ run-example:
 	env RUST_BACKTRACE=1 WASMEDGE_LOG_LEVEL=debug \
 	wasmedge --dir .:. \
 	--nn-preload llama-chat:GGML:AUTO:models/llama-2-7b-chat.Q5_K_M.gguf \
-       	"target/wasm32-wasi/release/llm-wasi.wasm" llama-chat ${prompt}
+       	"target/wasm32-wasi/release/llm_wasi.wasm" llama-chat ${prompt}
+
+component:
+	wasm-tools component new -vvv ./target/wasm32-wasi/release/llm_wasi.wasm \
+	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
+	-o target/llm-wasi-component.wasm
+
+inspect-wit:
+	wasm-tools component wit target/llm-wasi-component.wasm
