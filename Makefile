@@ -17,14 +17,9 @@ download-model:
 build:
 	cargo b --release --target wasm32-wasi
 
-prompt = "What is LoRA?"
-.PHONY: run-example
-run-example:
-	@echo ${LD_LIBRARY_PATH}
-	env RUST_BACKTRACE=1 WASMEDGE_LOG_LEVEL=debug \
-	wasmedge --dir .:. \
-	--nn-preload llama-chat:GGML:AUTO:models/llama-2-7b-chat.Q5_K_M.gguf \
-       	"target/wasm32-wasi/release/llm_wasi.wasm" llama-chat ${prompt}
+.PHONY: wit-print-wat
+wit-print-wat:
+	wasm-tools print target/llm-wasi-component.wasm
 
 component:
 	wasm-tools component new -vvv ./target/wasm32-wasi/release/llm_wasi.wasm \
@@ -40,3 +35,14 @@ build-rust-bindings:
 run-rust-bindings:
 	cd rust && cargo run --release
 
+
+build-wasmedge-wasi-nn-example:
+	cargo b --example wasmedge-wasi-nn --target wasm32-wasi --release
+
+PROMPT = "What is LoRA?"
+.PHONY: run-wasmedge-wasi-nn-example
+run-wasmedge-wasi-nn-example:
+	@env RUST_BACKTRACE=1 wasmedge --dir .:. \
+	--nn-preload llama-chat:GGML:AUTO:models/llama-2-7b-chat.Q5_K_M.gguf \
+	"target/wasm32-wasi/release/examples/wasmedge-wasi-nn.wasm" llama-chat \
+       	${PROMPT}
