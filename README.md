@@ -123,3 +123,22 @@ interface I think.
 [witx-bindgen]: https://github.com/bytecodealliance/wasi/tree/main/crates/witx-bindgen.
 [wasn-nn wit]:  https://github.com/WebAssembly/wasi-nn/tree/main/wit
 [generated.rs]: https://github.com/second-state/wasmedge-wasi-nn/blob/ggml/rust/src/generated.rs
+
+### Motivation
+By abstracting the inference from the concrete wasi-nn specification we can
+allow for different implementations of the inference engine. Lets say that
+wasm64-wasi is released, that could mean that we are able to run the inference
+directly in "pure" wasm without the need for wasi-nn (if it is still possible
+to access hardware accellerators that is).
+One thing that wasm64-wasi would enable is packaging the models into modules and
+then has a single component with everything needed to run the inference. This
+would be a big win for as currently the models need to handles separatly. So
+this would simplify deployment.
+
+Another reason is that the same .wasm component module can be used in different
+languages, for example generate bindings for Rust, JavaScript, Python, Java.
+
+We have the opportunity to create a new interface that is easier to use and
+understand. The wasi-nn interface is quite low level and it would be nice to
+have a higher level interface that is easier to use.
+
