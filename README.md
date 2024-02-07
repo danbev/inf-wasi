@@ -1,31 +1,6 @@
 ## llm-wasi
 This is Web Component Module componet for LLM inference.
 
-### Configuration
-We need to install [WasmEdge](https://wasmedge.org/) which is the wasm runtime
-that will be used:
-```console
-$ make install-wasmedge
-```
-
-We also need to download a LLM model to use:
-```
-$ make download-model
-```
-
-### Building WasmEdge with CUDA support and wasi-nn
-```console
-$ source cude-env.sh
-$ cd /path/to/WasmEdge
-$ mkdir build && cd build
-$ cmake .. -DWASMEDGE_PLUGIN_WASI_NN_BACKEND=ggml -DWASMEDGE_PLUGIN_WASI_NN_GGML_LLAMA_CUBLAS=ON -DCMAKE_CUDA_ARCHITECTURES=52;61;70 -DCMAKE_INSTALL_PREFIX=dist
-$ make -j8
-$ cmake --install . --prefix /home/danielbevenius/.local-wasmedge
-```
-So the above will configure and build wasmedge into the dist directory. We
-can now configure it so that wasmedge is used from there.
-
-
 ### WebAssembly Component Model
 So the idea is to create a WebAssembly interface types definition for the
 inference engine/runtime. The engine will use wasi-nn to do the actual compute
@@ -131,14 +106,39 @@ wasm64-wasi is released, that could mean that we are able to run the inference
 directly in "pure" wasm without the need for wasi-nn (if it is still possible
 to access hardware accellerators that is).
 One thing that wasm64-wasi would enable is packaging the models into modules and
-then has a single component with everything needed to run the inference. This
-would be a big win for as currently the models need to handles separatly. So
-this would simplify deployment.
+then have a single component with everything needed to run the inference. This
+would be a big win as currently the models need to handles separatly. So this
+would simplify deployment.
 
 Another reason is that the same .wasm component module can be used in different
 languages, for example generate bindings for Rust, JavaScript, Python, Java.
+This allows applications to use the llm inference in a secure manner, which the 
+wasm sandboxing provides.
 
-We have the opportunity to create a new interface that is easier to use and
+We have the opportunity to create a new interfaces that is easier to use and
 understand. The wasi-nn interface is quite low level and it would be nice to
 have a higher level interface that is easier to use.
 
+### Configuration
+We need to install [WasmEdge](https://wasmedge.org/) which is the wasm runtime
+that will be used:
+```console
+$ make install-wasmedge
+```
+
+We also need to download a LLM model to use:
+```
+$ make download-model
+```
+
+### Building WasmEdge with CUDA support and wasi-nn
+```console
+$ source cude-env.sh
+$ cd /path/to/WasmEdge
+$ mkdir build && cd build
+$ cmake .. -DWASMEDGE_PLUGIN_WASI_NN_BACKEND=ggml -DWASMEDGE_PLUGIN_WASI_NN_GGML_LLAMA_CUBLAS=ON -DCMAKE_CUDA_ARCHITECTURES=52;61;70 -DCMAKE_INSTALL_PREFIX=dist
+$ make -j8
+$ cmake --install . --prefix /home/danielbevenius/.local-wasmedge
+```
+So the above will configure and build wasmedge into the dist directory. We
+can now configure it so that wasmedge is used from there.
