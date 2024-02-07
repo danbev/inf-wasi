@@ -17,17 +17,23 @@ download-model:
 build:
 	cargo b --release --target wasm32-wasi
 
-.PHONY: wit-print-wat
-wit-print-wat:
-	wasm-tools print target/llm-wasi-component.wasm
+.PHONY: print-wat
+print-wat:
+	wasm-tools print ./target/wasm32-wasi/release/llm_wasi.wasm
+
 
 component:
 	wasm-tools component new -vvv ./target/wasm32-wasi/release/llm_wasi.wasm \
 	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
 	-o target/llm-wasi-component.wasm
 
+.PHONY: inspect-wit
 inspect-wit:
 	wasm-tools component wit target/llm-wasi-component.wasm
+
+.PHONY: wit-print-wat
+wit-print-wat:
+	wasm-tools print target/llm-wasi-component.wasm
 
 build-rust-bindings:
 	cd rust && cargo build --release
@@ -46,3 +52,6 @@ run-wasmedge-wasi-nn-example:
 	--nn-preload llama-chat:GGML:AUTO:models/llama-2-7b-chat.Q5_K_M.gguf \
 	"target/wasm32-wasi/release/examples/wasmedge-wasi-nn.wasm" llama-chat \
        	${PROMPT}
+
+get-wasi-nn-witx:
+	wget https://raw.githubusercontent.com/WebAssembly/wasi-nn/main/wit/wasi-nn.wit
