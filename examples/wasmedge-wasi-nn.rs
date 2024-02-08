@@ -17,7 +17,6 @@ fn main() {
 
     let graph =
         wasi_nn::GraphBuilder::new(wasi_nn::GraphEncoding::Ggml, wasi_nn::ExecutionTarget::GPU)
-            //.config(model_options.to_string())
             .build_from_cache(model_name)
             .expect("Failed to build graph from cache");
     let mut context: GraphExecutionContext = graph.init_execution_context().unwrap();
