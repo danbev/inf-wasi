@@ -49,10 +49,10 @@ async fn main() -> wasmtime::Result<()> {
     let mut linker = Linker::new(&engine);
     add_to_linker(&mut linker)?;
 
-    let (wit, _instance) = Llm::instantiate_async(&mut store, &component, &linker).await?;
+    let (llm, _instance) = Llm::instantiate_async(&mut store, &component, &linker).await?;
 
-    println!("llm-wasi version: {}", wit.call_version(&mut store).await?);
-    let result = wit.call_inference(&mut store).await?;
+    println!("llm-wasi version: {}", llm.call_version(&mut store).await?);
+    let result = llm.call_inference(&mut store).await?;
     println!("llm-wasi inference: {}", result);
     Ok(())
 }
