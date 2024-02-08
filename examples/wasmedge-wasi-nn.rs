@@ -28,7 +28,7 @@ fn main() {
         "enable-log": true,
         "ctx-size": 1024,
         "n-predict": 512,
-        "n-gpu-layers": 33
+        "n-gpu-layers": 25
     });
     println!("Options: {}", options);
 
