@@ -135,6 +135,48 @@ We have the opportunity to create a new interfaces that is easier to use and
 understand. The wasi-nn interface is quite low level and it would be nice to
 have a higher level interface that is easier to use.
 
+Doing this work would enable us to become part of this new (for us) space which
+will become more and more important moving forward. With the rise of LLM
+inferenese we are also seeing Large Multimodal Models (LMM) which might be even 
+more useful in the future.
+
+### Plan/How
+[] Design Inference Interface
+[] Implement component adapter for wasi_ephemeral_nn
+[] Bindings
+  [] Rust bindings and implementation
+  [] Python bindings and implementation
+  [] JavaScript bindings and implementation
+  [] Java (if possible) bindings and implementation
+[] Add wasm64-wasi support (to enable models to be packaged as modules)
+[] Add interface for models in wasm components
+[] Investigate if running inference using wasm64-wasi is possible and that access
+   to hardware accellerators is possible directly in this case.
+
+### Plan/Who
+I think I would be in a good posisition to do this work. I've contributed to
+[wasmtime] ([wasm-tools], [wasmtime-py]) in the past and I think I've worked up
+a good understanding of the wasmtime codebase, and also credit to get help if
+needed.
+
+I've also been contributing to [llama.cpp] (nothing major) but still hopefully
+worked up some credit to be able to ask questions and get help if needed.
+
+I've also worked with the web assembly component model before in 
+[seedwing], have worked on some examples using wasmedge and wasi-nn.
+
+On the Rust side I've contribured to [llm-chain] which might not be used
+directly in this particular project but it also uses llama.cpp and helped me
+understand that project better (I upgraded llama.cpp in llama-chain-llama to use
+the latest version of llama.cpp).
+
+[wasmtime]: https://github.com/bytecodealliance/wasmtime/commits?author=danbev
+[wasm-tools]: https://github.com/bytecodealliance/wasm-tools/graphs/contributors
+[wasmtime-py]: https://github.com/bytecodealliance/wasmtime-py/commits?author=danbev
+[llama-chain]: https://github.com/sobelio/llm-chain/commits?author=danbev
+[llama.cpp]: https://github.com/ggerganov/llama.cpp/commits?author=danbev
+[seedwing]: https://github.com/seedwing-io/seedwing-policy/pull/237
+
 ### Configuration
 We need to install [WasmEdge](https://wasmedge.org/) which is the wasm runtime
 that will be used:
