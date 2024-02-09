@@ -1,6 +1,8 @@
 ## llm-wasi
 This is Web Component Module componet for LLM inference.
 
+
+
 ### WebAssembly Component Model
 So the idea is to create a WebAssembly interface types definition for the
 inference engine/runtime. The engine will use wasi-nn to do the actual compute
@@ -100,6 +102,20 @@ interface I think.
 [generated.rs]: https://github.com/second-state/wasmedge-wasi-nn/blob/ggml/rust/src/generated.rs
 
 ### Motivation
+There are currently offerings available for running inference locally, like
+llamafile, run-llama.sh, llmstudio, llamaedge, and possible others as this is
+a fast moving field. The target user of these are user wanting to run llm
+inference on their local machine for reasons like privacy (not sharing their
+data with an LLM inference service provider), or wanting to avoid the cost of a
+LLM inference provider.
+
+The intention of llm-wasi it to cater for developers or enterprises that want
+to run inference, and simliar to the above users they also want the privacy and
+also avoid the cost, but also want to run the inference in a secure manner.
+These user might also be concerned about being able to run the inference on
+different deployment targets (server, edge, local), or be able to use the
+inference from multiple programming languages.
+
 By abstracting the inference from the concrete wasi-nn specification we can
 allow for different implementations of the inference engine. Lets say that
 wasm64-wasi is released, that could mean that we are able to run the inference
