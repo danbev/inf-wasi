@@ -1,7 +1,10 @@
 ## llm-wasi
 This is Web Component Module componet for LLM inference.
 
-
+### Background
+I've been focused on finding a use case for AI in Trusification but I think we
+should shift our focus to enabling our customers to use AI in a secure manner
+in their own applications. This is the motivation for this project.
 
 ### WebAssembly Component Model
 So the idea is to create a WebAssembly interface types definition for the
@@ -152,6 +155,8 @@ more useful in the future.
 [] Add interface for models in wasm components
 [] Investigate if running inference using wasm64-wasi is possible and that access
    to hardware accellerators is possible directly in this case.
+[] Investigate MultiModal Models (like visual->text, speach->text, text->speach)
+[] Investigate MobileVLMs 
 
 ### Plan/Who
 I think I would be in a good posisition to do this work. I've contributed to
