@@ -9,6 +9,50 @@ trying to come up (forcing) a usage in our project, perhaps we should shift
 our focus to enabling our customers to use AI in their application, and do so
 in a secure manner. This is the motivation for this project.
 
+### Motivation
+There are currently offerings available for running inference locally, like
+llamafile, run-llama.sh, llmstudio, llamaedge, and possible others, as this is
+a fast moving field. The target user of these are user wanting to run llm
+inference on their local machine for reasons like privacy (not sharing their
+data with an LLM inference service provider), or wanting to avoid the cost of a
+LLM inference provider.
+
+The intention of `inf-wasi` it to cater for developers or enterprises that want
+to run inference in their applications, and simliar to the above users they also
+want the privacy and also avoid the cost, but also want to run the inference in
+a secure manner since they will be using it in their own applications. These
+user might also interested in being able to run inf-wasi from different
+programming languages, like Rust, Python, JavaScript, Java, etc. By using the
+Web Assembly Component Model we can provide a single component interface that
+can be used from different languages.
+
+By abstracting the inference from the concrete wasi-nn specification we can
+allow for different implementations of the inference engine. Lets say that
+wasm64-wasi is released, that could mean that we are able to run the inference
+directly in "pure" wasm without the need for wasi-nn (if it is still possible
+to access hardware accellerators that is).
+One thing that wasm64-wasi would enable is packaging the models into modules and
+then have a single component with everything needed to run the inference. This
+would be a big win as currently the models need to handles separatly. So this
+would simplify deployment.
+
+Another reason is that the same .wasm component module can be used in different
+languages, for example generate bindings for Rust, JavaScript, Python, Java.
+This allows applications to use the llm inference in a secure manner, which the 
+wasm sandboxing provides.
+
+We have the opportunity to create a new interfaces that is easier to use and
+understand. The wasi-nn interface is quite low level and it would be nice to
+have a higher level interface that is easier to use.
+
+Doing this work would enable us to become part of this new (for us) space which
+will become more and more important moving forward. With the rise of LLM
+inferenese we are also seeing Large Multimodal Models (LMM) which might be even 
+more useful in the future.
+
+There are a number of project/products that enable running an LLM locally, like
+
+
 ### WebAssembly Component Model
 So the idea is to create a WebAssembly interface types definition for the
 inference engine/runtime. The engine will use wasi-nn to do the actual compute
@@ -107,44 +151,6 @@ interface I think.
 [wasn-nn wit]:  https://github.com/WebAssembly/wasi-nn/tree/main/wit
 [generated.rs]: https://github.com/second-state/wasmedge-wasi-nn/blob/ggml/rust/src/generated.rs
 
-### Motivation
-There are currently offerings available for running inference locally, like
-llamafile, run-llama.sh, llmstudio, llamaedge, and possible others as this is
-a fast moving field. The target user of these are user wanting to run llm
-inference on their local machine for reasons like privacy (not sharing their
-data with an LLM inference service provider), or wanting to avoid the cost of a
-LLM inference provider.
-
-The intention of inf-wasi it to cater for developers or enterprises that want
-to run inference, and simliar to the above users they also want the privacy and
-also avoid the cost, but also want to run the inference in a secure manner.
-These user might also be concerned about being able to run the inference on
-different deployment targets (server, edge, local), or be able to use the
-inference from multiple programming languages.
-
-By abstracting the inference from the concrete wasi-nn specification we can
-allow for different implementations of the inference engine. Lets say that
-wasm64-wasi is released, that could mean that we are able to run the inference
-directly in "pure" wasm without the need for wasi-nn (if it is still possible
-to access hardware accellerators that is).
-One thing that wasm64-wasi would enable is packaging the models into modules and
-then have a single component with everything needed to run the inference. This
-would be a big win as currently the models need to handles separatly. So this
-would simplify deployment.
-
-Another reason is that the same .wasm component module can be used in different
-languages, for example generate bindings for Rust, JavaScript, Python, Java.
-This allows applications to use the llm inference in a secure manner, which the 
-wasm sandboxing provides.
-
-We have the opportunity to create a new interfaces that is easier to use and
-understand. The wasi-nn interface is quite low level and it would be nice to
-have a higher level interface that is easier to use.
-
-Doing this work would enable us to become part of this new (for us) space which
-will become more and more important moving forward. With the rise of LLM
-inferenese we are also seeing Large Multimodal Models (LMM) which might be even 
-more useful in the future.
 
 ### Plan/How
 [] Design Inference Interface
