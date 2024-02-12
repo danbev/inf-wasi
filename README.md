@@ -11,11 +11,12 @@ in a secure manner. This is the motivation for this project.
 
 ### Motivation
 There are currently offerings available for running inference locally, like
-llamafile, run-llama.sh, llmstudio, llamaedge, and possible others, as this is
+[llamafile], [run-llama.sh], [llmstudio], [llamaedge], and possible others as this is
 a fast moving field. The target user of these are user wanting to run llm
 inference on their local machine for reasons like privacy (not sharing their
 data with an LLM inference service provider), or wanting to avoid the cost of a
 LLM inference provider.
+
 
 The intention of `inf-wasi` it to cater for developers or enterprises that want
 to run inference in their applications, and simliar to the above users they also
@@ -215,3 +216,8 @@ $ cmake --install . --prefix /home/danielbevenius/.local-wasmedge
 ```
 So the above will configure and build wasmedge into the dist directory. We
 can now configure it so that wasmedge is used from there.
+
+[llamafile]: https://github.com/Mozilla-Ocho/llamafile
+[run-llama.sh]: https://www.secondstate.io/articles/run-llm-sh/
+[llmstudio]: https://lmstudio.ai/
+[llamaedge]: https://www.secondstate.io/LlamaEdge/
