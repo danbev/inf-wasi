@@ -1,5 +1,7 @@
 ## inf-wasi
-This is Web Component Module componet for LLM inference (inf).
+This is Web Component Module componet for Languge Model inference (inf). This is
+can be used for Large Language Models (LLM) and Large Multimodal Models (LMM)
+like Visual Language Models (VLM).
 
 ### Background
 I've been focused on finding a use case for AI in Trusification but I think we
