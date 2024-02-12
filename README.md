@@ -1,7 +1,7 @@
 ## inf-wasi
 This is Web Component Module componet for Languge Model inference (inf). This is
-can be used for Large Language Models (LLM) and Large Multimodal Models (LMM)
-like Visual Language Models (VLM).
+can be used for Large Language Models (LLM), Visual Language Models (VLM), and
+Large Multimodal Models (LMM) (like LlaVA).
 
 ### Background
 I've been focused on finding a use case for AI in Trusification, but instead of
@@ -47,11 +47,12 @@ have a higher level interface that is easier to use.
 
 Doing this work would enable us to become part of this new (for us) space which
 will become more and more important moving forward. With the rise of LLM
-inferenese we are also seeing Large Multimodal Models (LMM) which might be even 
-more useful in the future.
-
-There are a number of project/products that enable running an LLM locally, like
-
+inference we are also seeing Large Multimodal Models (LMM) which might be even 
+more useful in the future. These models can enable the creation of applications
+that can take an image an input and produce text as ouput which describes the
+image. But there are further applications of this with are related to agents
+being able to understand/interpret the a GUI and then be able to interact with
+it. 
 
 ### WebAssembly Component Model
 So the idea is to create a WebAssembly interface types definition for the
