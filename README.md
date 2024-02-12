@@ -4,9 +4,10 @@ can be used for Large Language Models (LLM) and Large Multimodal Models (LMM)
 like Visual Language Models (VLM).
 
 ### Background
-I've been focused on finding a use case for AI in Trusification but I think we
-should shift our focus to enabling our customers to use AI in a secure manner
-in their own applications. This is the motivation for this project.
+I've been focused on finding a use case for AI in Trusification, but instead of
+trying to come up (forcing) a usage in our project, perhaps we should shift
+our focus to enabling our customers to use AI in their application, and do so
+in a secure manner. This is the motivation for this project.
 
 ### WebAssembly Component Model
 So the idea is to create a WebAssembly interface types definition for the
