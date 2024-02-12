@@ -23,7 +23,7 @@ print-wat:
 
 
 component:
-	wasm-tools component new -vvv ./target/wasm32-wasi/release/inf_wasi.wasm \
+	wasm-tools component new ./target/wasm32-wasi/release/inf_wasi.wasm \
 	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
 	-o target/inf-wasi-component.wasm
 

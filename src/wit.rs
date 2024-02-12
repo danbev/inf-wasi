@@ -1,6 +1,3 @@
-use serde_json::json;
-use wasi_nn::{self, GraphExecutionContext};
-
 wit_bindgen::generate!({
     world: "inf",
     exports: {

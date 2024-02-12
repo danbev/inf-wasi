@@ -2,5 +2,6 @@ package inf:wasi;
 
 world inf {
   export version: func() -> string;
+
   export inference: func() -> string;
 }
