@@ -53,6 +53,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "inf-wasi"
+version = "0.1.0"
+dependencies = [
+ "serde_json",
+ "wasi-nn",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "itoa"
 version = "1.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -63,15 +72,6 @@ name = "leb128"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "884e2677b40cc8c339eaefcb701c32ef1fd2493d71118dc0ca4b6a736c93bd67"
-
-[[package]]
-name = "llm-wasi"
-version = "0.1.0"
-dependencies = [
- "serde_json",
- "wasi-nn",
- "wit-bindgen",
-]
 
 [[package]]
 name = "log"

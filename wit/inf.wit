@@ -1,6 +1,6 @@
-package llm:wasi;
+package inf:wasi;
 
-world llm {
+world inf {
   export version: func() -> string;
   export inference: func() -> string;
 }

@@ -19,21 +19,21 @@ build:
 
 .PHONY: print-wat
 print-wat:
-	wasm-tools print ./target/wasm32-wasi/release/llm_wasi.wasm
+	wasm-tools print ./target/wasm32-wasi/release/inf_wasi.wasm
 
 
 component:
-	wasm-tools component new -vvv ./target/wasm32-wasi/release/llm_wasi.wasm \
+	wasm-tools component new -vvv ./target/wasm32-wasi/release/inf_wasi.wasm \
 	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
-	-o target/llm-wasi-component.wasm
+	-o target/inf-wasi-component.wasm
 
 .PHONY: inspect-wit
 inspect-wit:
-	wasm-tools component wit target/llm-wasi-component.wasm
+	wasm-tools component wit target/inf-wasi-component.wasm
 
 .PHONY: wit-print-wat
 wit-print-wat:
-	wasm-tools print target/llm-wasi-component.wasm
+	wasm-tools print target/inf-wasi-component.wasm
 
 build-rust-bindings:
 	cd rust && cargo build --release

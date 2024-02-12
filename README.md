@@ -1,5 +1,5 @@
-## llm-wasi
-This is Web Component Module componet for LLM inference.
+## inf-wasi
+This is Web Component Module componet for LLM inference (inf).
 
 ### Background
 I've been focused on finding a use case for AI in Trusification but I think we
@@ -23,9 +23,9 @@ using the wasm-tools component new command.
 But doing this currently fails with the following error:
 ```console
 $ make component 
-wasm-tools component new -vvv ./target/wasm32-wasi/release/llm_wasi.wasm \
+wasm-tools component new -vvv ./target/wasm32-wasi/release/inf_wasi.wasm \
 --adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
--o target/llm-wasi-component.wasm
+-o target/inf-wasi-component.wasm
 ...
 
 error: failed to encode a component from module
@@ -112,7 +112,7 @@ inference on their local machine for reasons like privacy (not sharing their
 data with an LLM inference service provider), or wanting to avoid the cost of a
 LLM inference provider.
 
-The intention of llm-wasi it to cater for developers or enterprises that want
+The intention of inf-wasi it to cater for developers or enterprises that want
 to run inference, and simliar to the above users they also want the privacy and
 also avoid the cost, but also want to run the inference in a secure manner.
 These user might also be concerned about being able to run the inference on

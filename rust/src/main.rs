@@ -7,7 +7,7 @@ use wasmtime_wasi::preview2::{ResourceTable, WasiCtx, WasiCtxBuilder, WasiView};
 
 bindgen!({
     path: "../wit",
-    world: "llm",
+    world: "inf",
     async: true,
 });
 
@@ -38,7 +38,7 @@ async fn main() -> wasmtime::Result<()> {
     config.async_support(true);
 
     let engine = WasmtimeEngine::new(&config)?;
-    let bytes = include_bytes!("../../target/llm-wasi-component.wasm");
+    let bytes = include_bytes!("../../target/inf-wasi-component.wasm");
     let component = Component::from_binary(&engine, bytes)?;
 
     let table = ResourceTable::new();
@@ -49,10 +49,10 @@ async fn main() -> wasmtime::Result<()> {
     let mut linker = Linker::new(&engine);
     add_to_linker(&mut linker)?;
 
-    let (llm, _instance) = Llm::instantiate_async(&mut store, &component, &linker).await?;
+    let (inf, _instance) = Inf::instantiate_async(&mut store, &component, &linker).await?;
 
-    println!("llm-wasi version: {}", llm.call_version(&mut store).await?);
-    let result = llm.call_inference(&mut store).await?;
-    println!("llm-wasi inference: {}", result);
+    println!("inf-wasi version: {}", inf.call_version(&mut store).await?);
+    let result = inf.call_inference(&mut store).await?;
+    println!("inf-wasi inference: {}", result);
     Ok(())
 }
