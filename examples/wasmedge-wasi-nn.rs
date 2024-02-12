@@ -6,21 +6,19 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let model_name: &str = &args[1];
 
-    let model_options = json!({
+    let _model_options = json!({
         "stream-stdout": true,
         "enable-log": true,
         "ctx-size": 1024,
         "n-predict": 512,
         "n-gpu-layers": 33
     });
-    println!("Model options: {:?}", model_options);
 
     let graph =
         wasi_nn::GraphBuilder::new(wasi_nn::GraphEncoding::Ggml, wasi_nn::ExecutionTarget::GPU)
             .build_from_cache(model_name)
             .expect("Failed to build graph from cache");
     let mut context: GraphExecutionContext = graph.init_execution_context().unwrap();
-    println!("context: {}", context);
 
     // Set options to input with index 1
     let options = json!({
