@@ -155,19 +155,19 @@ interface I think.
 
 
 ### Plan/How
-[] Design Inference Interface
-[] Implement component adapter for wasi_ephemeral_nn
-[] Bindings
-  [] Rust bindings and implementation
-  [] Python bindings and implementation
-  [] JavaScript bindings and implementation
-  [] Java (if possible) bindings and implementation
-[] Add wasm64-wasi support (to enable models to be packaged as modules)
-[] Add interface for models in wasm components
-[] Investigate if running inference using wasm64-wasi is possible and that access
-   to hardware accellerators is possible directly in this case.
-[] Investigate MultiModal Models (like visual->text, speach->text, text->speach)
-[] Investigate MobileVLMs 
+[] Design Inference Interface  
+[] Implement component adapter for wasi_ephemeral_nn  
+[] Bindings  
+  [] Rust bindings and implementation  
+  [] Python bindings and implementation  
+  [] JavaScript bindings and implementation  
+  [] Java (if possible) bindings and implementation  
+[] Add wasm64-wasi support (to enable models to be packaged as modules)  
+[] Add interface for models in wasm components  
+[] Investigate if running inference using wasm64-wasi is possible and that access   
+   to hardware accellerators is possible directly in this case  
+[] Investigate MultiModal Models (like visual->text, speach->text, text->speach)  
+[] Investigate MobileVLMs   
 
 ### Plan/Who
 I think I would be in a good posisition to do this work. I've contributed to
@@ -189,7 +189,7 @@ the latest version of llama.cpp).
 [wasmtime]: https://github.com/bytecodealliance/wasmtime/commits?author=danbev
 [wasm-tools]: https://github.com/bytecodealliance/wasm-tools/graphs/contributors
 [wasmtime-py]: https://github.com/bytecodealliance/wasmtime-py/commits?author=danbev
-[llama-chain]: https://github.com/sobelio/llm-chain/commits?author=danbev
+[llm-chain]: https://github.com/sobelio/llm-chain/commits?author=danbev
 [llama.cpp]: https://github.com/ggerganov/llama.cpp/commits?author=danbev
 [seedwing]: https://github.com/seedwing-io/seedwing-policy/pull/237
 
