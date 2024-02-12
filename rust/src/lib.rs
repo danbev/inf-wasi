@@ -1,9 +1,5 @@
-use wasmtime::{
-    component::{bindgen, Component, Linker},
-    Config, Engine as WasmtimeEngine, Store,
-};
-use wasmtime_wasi::preview2::command::add_to_linker;
-use wasmtime_wasi::preview2::{ResourceTable, WasiCtx, WasiCtxBuilder, WasiView};
+use wasmtime::component::bindgen;
+use wasmtime_wasi::preview2::{ResourceTable, WasiCtx, WasiView};
 
 bindgen!({
     path: "../wit",
@@ -30,5 +26,3 @@ impl WasiView for CommandCtx {
         &mut self.wasi_ctx
     }
 }
-
-struct LlmWasi {}

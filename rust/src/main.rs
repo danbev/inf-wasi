@@ -52,6 +52,7 @@ async fn main() -> wasmtime::Result<()> {
     let (inf, _instance) = Inf::instantiate_async(&mut store, &component, &linker).await?;
 
     println!("inf-wasi version: {}", inf.call_version(&mut store).await?);
+
     let result = inf.call_inference(&mut store).await?;
     println!("inf-wasi inference: {}", result);
     Ok(())
