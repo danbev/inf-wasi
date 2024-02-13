@@ -65,3 +65,11 @@ interfaces which is what the component model uses.
 So we want to convert from the wasi-nn (wasi-nn.witx) interface to the WIT
 interface I think. Basically we need to add an adapter which can be used bytecodealliance
 wasm-tools component new command.
+
+The adapter is a separate wasm module that exports the same functions as the
+wasi_ephemeral_nn interface.
+
+I've opened an [issue] on the wasmtime repo to get some feedback on this and see
+what the best approach is.
+
+[issue]: https://github.com/bytecodealliance/wasmtime/issues/7925
