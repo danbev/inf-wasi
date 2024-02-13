@@ -1,7 +1,7 @@
 ## inf-wasi
 This is Web Component Module Component for Languge Model inference (inf). This
 can be used for Large Language Models (LLM), and Large Multimodal Models (LMM)
-(like LlaVA) inference.
+(like [LLaVA]) inference.
 
 ### Background
 I've been focused on finding a use case for AI in [Trustification], but instead
@@ -148,3 +148,4 @@ can now configure it so that wasmedge is used from there.
 [wasn-nn wit]:  https://github.com/WebAssembly/wasi-nn/tree/main/wit
 [generated.rs]: https://github.com/second-state/wasmedge-wasi-nn/blob/ggml/rust/src/generated.rs
 [trustification]: https://github.com/trustification/trustification
+[llava]: https://github.com/danbev/learning-ai/blob/main/notes/llava.md
