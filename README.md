@@ -4,43 +4,44 @@ can be used for Large Language Models (LLM), and Large Multimodal Models (LMM)
 (like LlaVA) inference.
 
 ### Background
-I've been focused on finding a use case for AI in Trusification, but instead of
-trying to come up (forcing) a usage in our project, perhaps we should shift
+I've been focused on finding a use case for AI in [Trustification], but instead
+of trying to come up (forcing) a usage in our project, perhaps we should shift
 our focus to enabling our customers to use AI in their application, and do so
 in a secure manner. This is the motivation for this project.
 
 ### Motivation
 There are currently offerings available for running inference locally, like
-[llamafile], [run-llama.sh], [llmstudio], [llamaedge], and possible others as this is
-a fast moving field. The target user of these are user wanting to run llm
-inference on their local machine for reasons like privacy (not sharing their
+[llamafile], [run-llama.sh], [llmstudio], [llamaedge], and possible others as
+this is a fast moving field. The target user of these are user wanting to run
+llm inference on their local machine for reasons like privacy (not sharing their
 data with an LLM inference service provider), or wanting to avoid the cost of a
 LLM inference provider.
 
-
-The intention of `inf-wasi` it to cater for developers or enterprises that want
-to run inference in their applications, and simliar to the above users they also
-want the privacy and also avoid the cost, but also want to run the inference in
-a secure manner since they will be using it in their own applications. These
-user might also interested in being able to run inf-wasi from different
-programming languages, like Rust, Python, JavaScript, Java, etc. By using the
-Web Assembly Component Model we can provide a single component interface that
-can be used from different languages.
+The intention of `inf-wasi` it to cater for developers that want to run
+inference in their applications, and simliar to the above users they also want
+the privacy and avoid the cost, but also want to run the inference in a secure
+manner since they will be using it in their own applications. These user might
+also interested in being able to run inf-wasi from different programming
+languages, like Rust, Python, JavaScript, Java, etc. By using the Web Assembly
+ Component Model we can provide a single component interface that can be used
+from different languages by generating bindings for those languages.
 
 By abstracting the inference from the concrete wasi-nn specification we can
 allow for different implementations of the inference engine. Lets say that
-wasm64-wasi is released, that could mean that we are able to run the inference
+`wasm64-wasi` is released, that could mean that we are able to run the inference
 directly in "pure" wasm without the need for wasi-nn (if it is still possible
 to access hardware accellerators that is).
-One thing that wasm64-wasi would enable is packaging the models into modules and
-then have a single component with everything needed to run the inference. This
-would be a big win as currently the models need to handles separatly. So this
-would simplify deployment.
 
-Another reason is that the same .wasm component module can be used in different
-languages, for example generate bindings for Rust, JavaScript, Python, Java.
-This allows applications to use the llm inference in a secure manner, which the 
-wasm sandboxing provides.
+Another thing that `wasm64-wasi` would enable is packaging the models into
+modules and then have a single component with everything needed to run the
+inference. This would be a big win as currently the models need to handles
+separately from from the .wasm. This would simplify deployment is there was only
+a single .wasm file to deploy.
+
+Another motivation is that the same .wasm component module can be used in
+different languages, for example generate bindings for Rust, JavaScript, Python,
+Java. This allows applications to use the llm inference in a secure manner,
+which the wasm sandboxing provides.
 
 We have the opportunity to create a new interfaces that is easier to use and
 understand. The wasi-nn interface is quite low level and it would be nice to
@@ -55,11 +56,17 @@ image. But there are further applications of this with are related to agents
 being able to understand/interpret the a GUI and then be able to interact with
 it. 
 
+### Current status of this project
+At the time of writing this project just contains a skeleton of the ideas above
+to make it easier to explain the ideas and get feedback from others if this is
+worth exploring further.
+
 ### WebAssembly Component Model
 So the idea is to create a WebAssembly interface types definition for the
 inference engine/runtime. The engine will use wasi-nn to do the actual compute
 inference. 
-Now, I've been able to get a simple wasi-nn example to work using wasmedge:
+
+Now, a simple wasi-nn example can be found in the examples directory:
 ```console
 $ make build-wasmedge-wasi-nn-example
 $ make run-wasmedge-wasi-nn-example
@@ -85,8 +92,8 @@ make: *** [Makefile:25: component] Error 1
 ```
 
 So the `.wasm` file is expecting an import interface named `wasi_ephemeral_nn` I
-think and this would be something that is provided by the runtime, which is why
-we were able to run the example using wasmedge.
+and this would be something that is provided by the runtime, which is why we
+were able to run the example using wasmedge.
 
 We can see this import using the following commmand:
 ```console
@@ -102,7 +109,6 @@ is the following:
 ```rust
     let graph =
         wasi_nn::GraphBuilder::new(wasi_nn::GraphEncoding::Ggml, wasi_nn::ExecutionTarget::GPU)
-            //.config(model_options.to_string())
             .build_from_cache(model_name)
             .expect("Failed to build graph from cache");
 ```
@@ -127,8 +133,6 @@ Well this is generated by [witx-bindgen] https://github.com/bytecodealliance/was
 The [wasn-nn wit] files are the passed as the input to witx-bindgen which will
 [generated] Rust code that we can use to call the wasi-nn functions.
 
-TODO: explain exactly how syscall work as this is not clear to me.
-
 Now, we have other imports, like
 ```
 (import "wasi_snapshot_preview1" "fd_write" (func $wasi::lib_generated::wasi_snapshot_preview1::fd_write (;1;) (type 5)))
@@ -147,12 +151,8 @@ a component module. It is there to satisfy the imports that don't have WIT
 interfaces which is what the component model uses.
 
 So we want to convert from the wasi-nn (wasi-nn.witx) interface to the WIT
-interface I think.
-
-[witx-bindgen]: https://github.com/bytecodealliance/wasi/tree/main/crates/witx-bindgen.
-[wasn-nn wit]:  https://github.com/WebAssembly/wasi-nn/tree/main/wit
-[generated.rs]: https://github.com/second-state/wasmedge-wasi-nn/blob/ggml/rust/src/generated.rs
-
+interface I think. Basically we need to add an adapter which can be used bytecodealliance
+wasm-tools component new command.
 
 ### Tasks
 - [] Implement component adapter for wasi_ephemeral_nn  
@@ -204,3 +204,7 @@ can now configure it so that wasmedge is used from there.
 [llm-chain]: https://github.com/sobelio/llm-chain/commits?author=danbev
 [llama.cpp]: https://github.com/ggerganov/llama.cpp/commits?author=danbev
 [seedwing]: https://github.com/seedwing-io/seedwing-policy/pull/237
+[witx-bindgen]: https://github.com/bytecodealliance/wasi/tree/main/crates/witx-bindgen.
+[wasn-nn wit]:  https://github.com/WebAssembly/wasi-nn/tree/main/wit
+[generated.rs]: https://github.com/second-state/wasmedge-wasi-nn/blob/ggml/rust/src/generated.rs
+[trustification]: https://github.com/trustification/trustification
