@@ -36,7 +36,10 @@ Another thing that `wasm64-wasi` would enable is packaging the models into
 modules and then have a single component with everything needed to run the
 inference. This would be a big win as currently the models need to handles
 separately from from the .wasm. This would simplify deployment is there was only
-a single .wasm file to deploy.
+a single .wasm file to deploy. Having a separate model file can also perhaps be
+viewed as an attach vector which could be manipluated by an attacker. Having
+the model in a component might been that we could sign the .wasm as a whole as
+well to verify that it has not been tampered with.
 
 Another motivation is that the same .wasm component module can be used in
 different languages, for example generate bindings for Rust, JavaScript, Python,
@@ -46,6 +49,10 @@ which the wasm sandboxing provides.
 We have the opportunity to create a new interfaces that is easier to use and
 understand. The wasi-nn interface is quite low level and it would be nice to
 have a higher level interface that is easier to use.
+
+While the composition of modules is currently being done on the command line it
+could equally be done on the serverside, and controlled via a graphical user
+interface.
 
 Doing this work would enable us to become part of this new (for us) space which
 will become more and more important moving forward. With the rise of LLM
