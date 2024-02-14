@@ -97,13 +97,10 @@ Caused by:
     0: module requires an import interface named `wasi_ephemeral_nn`
 make: *** [Makefile:25: component] Error 1
 ```
-There are more details about this in the
-[wasi-nn adapter issue](docs/wasi-nn-adapter.md) but I believe that we need to
-create an adapter similar to the one that is used for the wasi_snapshot_preview1
-for this to work.
+This was most likely expected as the wasi-nn version I was using was not up to
+date. 
 
 ### Tasks
-- [] Implement component adapter for wasi_ephemeral_nn  
 - [] Design Inference Interface  
 - [] Bindings  
   - [] Rust bindings and implementation  

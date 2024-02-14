@@ -70,6 +70,8 @@ The adapter is a separate wasm module that exports the same functions as the
 wasi_ephemeral_nn interface.
 
 I've opened an [issue] on the wasmtime repo to get some feedback on this and see
-what the best approach is.
+what the best approach is. The issue was with and outdated wasi-nn version and
+with a newer version there should not be an issue creating a component. The
+adapter route was definitely not the way to go so I was way off on that one.
 
 [issue]: https://github.com/bytecodealliance/wasmtime/issues/7925
