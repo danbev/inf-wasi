@@ -17,6 +17,11 @@ download-model:
 build:
 	cargo b --release --target wasm32-wasi
 
+# Requires cargo install wit-bindgen-cli. This can be used to inspect the
+# generated output (Rust source) from the wit file.
+wit-bindgen:
+	wit-bindgen rust wit/inf.wit -w inf --exports world=inf
+
 .PHONY: print-wat
 print-wat:
 	wasm-tools print ./target/wasm32-wasi/release/inf_wasi.wasm
