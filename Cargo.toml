@@ -6,10 +6,17 @@ edition = "2021"
 [dependencies]
 serde_json = "1.0"
 wit-bindgen = { version = "0.17.0", default-features = true, features = ['macros'] }
-wasmedge-nn = "0.5.2"
+wasi-nn = "0.6.0"
 
 [dev-dependencies]
-wasi-nn = { git = "https://github.com/second-state/wasmedge-wasi-nn", branch = "ggml" }
+# Currently the fork https://github.com/second-state/wasmedge-wasi-nn/tree/ggml
+# contains an older version of wasi-nn which is generated from .witx and not
+# newer .wit spec format file. This causes issues when trying to componse a
+# core wasm module in to a component module. I'll take a look at updating this
+# fork, but for now I'm going to comment out this dependency for the example
+# that used wasmedge. The fork adds support for GGML which is why I want to used
+# it.
+#wasi-nn = { git = "https://github.com/second-state/wasmedge-wasi-nn", branch = "ggml" }
 
 [lib]
 crate-type = ["cdylib"]
