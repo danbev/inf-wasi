@@ -11,11 +11,11 @@ in a secure manner. This is the motivation for this project.
 
 ### Motivation
 There are currently offerings available for running inference locally, like
-[llamafile], [run-llama.sh], [llmstudio], [llamaedge], and possible others as
-this is a fast moving field. The target user of these are user wanting to run
-llm inference on their local machine for reasons like privacy (not sharing their
-data with an LLM inference service provider), or wanting to avoid the cost of a
-LLM inference provider.
+[llamafile], [run-llama.sh], [llmstudio], [llamaedge], [ollama], and possible
+others as this is a fast moving field. The target user of these are user wanting
+to run llm inference on their local machine for reasons like privacy (not
+sharing their data with an LLM inference service provider), or wanting to avoid
+the cost of a LLM inference provider.
 
 The intention of `inf-wasi` it to cater for developers that want to run
 inference in their applications, and simliar to the above users they also want
@@ -81,24 +81,13 @@ $ make run-wasmedge-wasi-nn-example
 
 So we are able to compile this to wasm and run it using wasmedge. But I'd also
 like to be able transform this core wasm module into a web component module
-using the wasm-tools component new command. 
-
-But doing this currently fails with the following error:
+using the wasm-tools component new command:
 ```console
 $ make component 
-wasm-tools component new -vvv ./target/wasm32-wasi/release/inf_wasi.wasm \
+wasm-tools component new ./target/wasm32-wasi/release/inf_wasi.wasm \
 --adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
 -o target/inf-wasi-component.wasm
-...
-
-error: failed to encode a component from module
-
-Caused by:
-    0: module requires an import interface named `wasi_ephemeral_nn`
-make: *** [Makefile:25: component] Error 1
 ```
-This was most likely expected as the wasi-nn version I was using was not up to
-date. 
 
 ### Tasks
 - [] Design Inference Interface  
@@ -153,3 +142,4 @@ can now configure it so that wasmedge is used from there.
 [generated.rs]: https://github.com/second-state/wasmedge-wasi-nn/blob/ggml/rust/src/generated.rs
 [trustification]: https://github.com/trustification/trustification
 [llava]: https://github.com/danbev/learning-ai/blob/main/notes/llava.md
+[ollama]:  https://ollama.com/
