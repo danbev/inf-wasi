@@ -42,5 +42,47 @@ $ make print-wat | rustfilt > output-wat
    37   (import "wasi_snapshot_preview1" "environ_sizes_get" (func $__imported_wasi_snapshot_preview1_environ_sizes_get (;12;) (type 2)))
    38   (import "wasi_snapshot_preview1" "proc_exit" (func $__imported_wasi_snapshot_preview1_proc_exit (;13;) (type 0)))
 ```
+Hmm, if we look at the tensor import and the package names they have `inf_wasi`
+in them which should not be the case. This is because I thougt it would be
+clearer to generate, using wit-bindgen, the wasi-nn bindings in a separate
+source file and then include it as I would be able to inspect the generated
+code easier. But perhaps I should just use the wit-bindgen macro directly in
+the Rust source file and see if that works.
+
+Lets also take a look at the wit from the component.wasm:
+```console
+$ make inspect-wit 
+wasm-tools component wit target/inf-wasi-component.wasm
+package root:component;
+
+world root {
+  import wasi:nn/tensor;
+  import wasi:nn/errors;
+  import wasi:nn/inference;
+  import wasi:nn/graph;
+  import wasi:cli/environment@0.2.0;
+  import wasi:cli/exit@0.2.0;
+  import wasi:io/error@0.2.0;
+  import wasi:io/streams@0.2.0;
+  import wasi:cli/stdin@0.2.0;
+  import wasi:cli/stdout@0.2.0;
+  import wasi:cli/stderr@0.2.0;
+  import wasi:clocks/wall-clock@0.2.0;
+  import wasi:filesystem/types@0.2.0;
+  import wasi:filesystem/preopens@0.2.0;
+
+  export version: func() -> string;
+  export inference: func() -> string;
+}
+```
+
+So after some digging around I realized that the version of wasi-nn.wit that is
+used in wasmtime-wasi-nn is an older version compared to the one that I updated
+wasi-nn with. At the moment wasi-nn is still using the old witx format and I'v
+updated that to use the new wit format. I just used the latest version available
+and hoped that would work. But that lead to the wrong type issue. So what I've
+tried now is using the same version that wasmtime-wasi-nn uses and that seems to
+work.
+
 _wip_
 
