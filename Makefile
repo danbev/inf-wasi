@@ -22,9 +22,17 @@ build:
 wit-bindgen:
 	wit-bindgen rust wit/inf.wit -w inf --exports world=inf
 
+# This target can be used to download/update the wasi-nn.wit (spec) file.
+download-wasi-nn.wit:
+	curl -Ls https://raw.githubusercontent.com/WebAssembly/wasi-nn/main/wit/wasi-nn.wit --output wit/wasi-nn.wit
+
+# This target can be used to generate the Rust bindings from the wasi-nn.wit.
+wasi-nn-gen:
+	wit-bindgen rust wit/wasi-nn.wit
+
 .PHONY: print-wat
 print-wat:
-	wasm-tools print ./target/wasm32-wasi/release/inf_wasi.wasm
+	wasm-tools print ./target/wasm32-wasi/release/inf_wasi.wasm | rustfilt
 
 
 component:
@@ -53,7 +61,7 @@ build-wasmedge-wasi-nn-example:
 PROMPT = "What is LoRA?"
 .PHONY: run-wasmedge-wasi-nn-example
 run-wasmedge-wasi-nn-example:
-	@env RUST_BACKTRACE=1 wasmedge --dir .:. \
+	env RUST_BACKTRACE=1 wasmedge --dir .:. \
 	--nn-preload llama-chat:GGML:AUTO:models/llama-2-7b-chat.Q5_K_M.gguf \
 	"target/wasm32-wasi/release/examples/wasmedge-wasi-nn.wasm" llama-chat \
        	${PROMPT}
