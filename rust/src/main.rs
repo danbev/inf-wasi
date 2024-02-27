@@ -1,9 +1,15 @@
+use wasmtime::component::ResourceTable;
 use wasmtime::{
-    component::{bindgen, Component, Linker},
-    Config, Engine as WasmtimeEngine, Store,
+    component::{bindgen, Component, Linker as ComponentLinker},
+    Config, Engine as WasmtimeEngine, Linker, Store,
 };
-use wasmtime_wasi::preview2::command::add_to_linker;
-use wasmtime_wasi::preview2::{ResourceTable, WasiCtx, WasiCtxBuilder, WasiView};
+use wasmtime_wasi::WasiCtx;
+use wasmtime_wasi::WasiCtxBuilder;
+use wasmtime_wasi::WasiView;
+use wasmtime_wasi_nn::WasiNnCtx;
+
+use wasmtime_wasi_nn::backend::openvino::OpenvinoBackend;
+use wasmtime_wasi_nn::InMemoryRegistry;
 
 bindgen!({
     path: "../wit",
@@ -13,26 +19,22 @@ bindgen!({
 
 struct CommandCtx {
     table: ResourceTable,
-    wasi_ctx: WasiCtx,
+    wasi: WasiCtx,
+    wasi_nn: WasiNnCtx,
 }
 
 impl WasiView for CommandCtx {
-    fn table(&self) -> &ResourceTable {
-        &self.table
-    }
-    fn table_mut(&mut self) -> &mut ResourceTable {
+    fn table(&mut self) -> &mut ResourceTable {
         &mut self.table
     }
-    fn ctx(&self) -> &WasiCtx {
-        &self.wasi_ctx
-    }
-    fn ctx_mut(&mut self) -> &mut WasiCtx {
-        &mut self.wasi_ctx
+    fn ctx(&mut self) -> &mut WasiCtx {
+        &mut self.wasi
     }
 }
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> wasmtime::Result<()> {
+    println!("Rust inf-wasi bindings example!");
     let mut config = Config::new();
     config.wasm_component_model(true);
     config.async_support(true);
@@ -40,16 +42,39 @@ async fn main() -> wasmtime::Result<()> {
     let engine = WasmtimeEngine::new(&config)?;
     let bytes = include_bytes!("../../target/inf-wasi-component.wasm");
     let component = Component::from_binary(&engine, bytes)?;
+    println!("Loaded component module.");
 
-    let table = ResourceTable::new();
-    let wasi_ctx = WasiCtxBuilder::new().inherit_stdio().build();
-    let ctx = CommandCtx { table, wasi_ctx };
+    let wasi = WasiCtxBuilder::new().inherit_stdio().build();
+    let openvino = OpenvinoBackend::default();
+    let registry = InMemoryRegistry::new();
+    let wasi_nn = WasiNnCtx::new([openvino.into()], registry.into());
+    let command_ctx = CommandCtx {
+        table: ResourceTable::new(),
+        wasi,
+        wasi_nn,
+    };
+    let mut store = Store::new(&engine, command_ctx);
 
-    let mut store = Store::new(&engine, ctx);
-    let mut linker = Linker::new(&engine);
-    add_to_linker(&mut linker)?;
+    //let table = ResourceTable::new();
+    //let wasi_ctx = WasiCtxBuilder::new().inherit_stdio().build();
+    //let ctx = CommandCtx { table, wasi_ctx };
 
-    let (inf, _instance) = Inf::instantiate_async(&mut store, &component, &linker).await?;
+    //let mut store = Store::new(&engine, ctx);
+    //let mut linker = wasmtime::Linker::new(&engine);
+    let mut component_linker = ComponentLinker::new(&engine);
+    wasmtime_wasi::command::sync::add_to_linker(&mut component_linker)?;
+    println!("Added wasi to linker.");
+    //wasmtime_wasi::sync::add_to_linker(&mut linker)?;
+    //wasi_common::sync::add_to_linker(&mut linker, |s| s)?;
+    //wasmtime_wasi_nn::wit::add_to_linker(&mut linker)?;
+    //let mut linker = Linker::new(&engine);
+    wasmtime_wasi_nn::wit::ML::add_to_linker(&mut component_linker, |s: &mut CommandCtx| {
+        &mut s.wasi_nn
+    })?;
+    //wasmtime_wasi_nn::witx::add_to_linker(&mut linker, |s: &mut CommandCtx| &mut s.wasi_nn)?;
+
+    let (inf, _instance) =
+        Inf::instantiate_async(&mut store, &component, &component_linker).await?;
 
     println!("inf-wasi version: {}", inf.call_version(&mut store).await?);
 

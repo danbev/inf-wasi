@@ -5,9 +5,9 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.71"
-wasmtime = { version = "17.0.0", features = ["component-model"] }
-wasmtime-wasi = { version = "17.0.0", features = ["preview1-on-preview2", "tokio", "sync"]}
-wasi-common = "17.0.0"
+wasmtime = { path = "/home/danielbevenius/work/wasm/wasmtime/crates/wasmtime", features = ["component-model"] }
+wasmtime-wasi = { path = "/home/danielbevenius/work/wasm/wasmtime/crates/wasi"}
+wasmtime-wasi-nn = { path = "/home/danielbevenius/work/wasm/wasmtime/crates/wasi-nn" }
 tokio = { version = "1", features = ["full"] }
 serde_json = { version = "1.0.89", features = ["float_roundtrip", "arbitrary_precision", "preserve_order"] }
 
