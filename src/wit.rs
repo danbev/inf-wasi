@@ -15,6 +15,8 @@ wit_bindgen::generate!({
     },
 });
 
+use std::path::PathBuf;
+
 struct Exports;
 
 impl Guest for Exports {
@@ -33,9 +35,22 @@ impl Guest for Exports {
             "n-gpu-layers": 33
         });
 
-        let graph = graph::load_by_name(model_name).unwrap();
+        let model_path = PathBuf::from("../models/llama-2-7b-chat.Q5_K_M.gguf");
+        let graph_builder: graph::GraphBuilder = model_path.to_str().unwrap().as_bytes().to_vec();
+        let builders = vec![graph_builder];
+
+        let graph = graph::load(
+            &builders,
+            graph::GraphEncoding::Gguf,
+            graph::ExecutionTarget::Cpu,
+        )
+        .unwrap();
+
         let context: inference::GraphExecutionContext =
             inference::init_execution_context(graph).unwrap();
+
+        println!("Context: {}", context);
+
         let options = json!({
             "stream-stdout": true,
             "enable-log": true,
@@ -50,6 +65,7 @@ impl Guest for Exports {
             tensor_type: tensor::TensorType::U8,
             data: options.to_string().as_bytes().to_vec(),
         };
+
         inference::set_input(context, 1, &options_tensor).unwrap();
 
         let prompt = "What is LoRA?";

@@ -52,7 +52,7 @@ build-rust-bindings:
 	cd rust && cargo build --release
 
 run-rust-bindings:
-	cd rust && cargo run --release
+	cd rust && env RUST_BACKTRACE=full  WASMTIME_BACKTRACE_DETAILS=1 cargo run --release
 
 
 build-wasmedge-wasi-nn-example:

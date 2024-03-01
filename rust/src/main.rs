@@ -1,20 +1,24 @@
+use wasi_common::sync::Dir;
 use wasmtime::component::ResourceTable;
 use wasmtime::{
     component::{bindgen, Component, Linker as ComponentLinker},
     Config, Engine as WasmtimeEngine, Linker, Store,
 };
+
+use wasmtime_wasi::DirPerms;
+use wasmtime_wasi::FilePerms;
 use wasmtime_wasi::WasiCtx;
 use wasmtime_wasi::WasiCtxBuilder;
 use wasmtime_wasi::WasiView;
 use wasmtime_wasi_nn::WasiNnCtx;
 
-use wasmtime_wasi_nn::backend::openvino::OpenvinoBackend;
+use wasmtime_wasi_nn::backend::llama_cpp::LlamaCppBackend;
 use wasmtime_wasi_nn::InMemoryRegistry;
 
 bindgen!({
     path: "../wit",
     world: "inf",
-    async: true,
+    async: false,
 });
 
 struct CommandCtx {
@@ -32,22 +36,35 @@ impl WasiView for CommandCtx {
     }
 }
 
-#[tokio::main(flavor = "current_thread")]
-async fn main() -> wasmtime::Result<()> {
+//#[tokio::main(flavor = "multi_thread", worker_threads = 4)]
+//async fn main() -> wasmtime::Result<()> {
+fn main() -> wasmtime::Result<()> {
     println!("Rust inf-wasi bindings example!");
     let mut config = Config::new();
     config.wasm_component_model(true);
-    config.async_support(true);
+    //config.async_support(true);
+    config.async_support(false);
 
     let engine = WasmtimeEngine::new(&config)?;
     let bytes = include_bytes!("../../target/inf-wasi-component.wasm");
     let component = Component::from_binary(&engine, bytes)?;
     println!("Loaded component module.");
 
-    let wasi = WasiCtxBuilder::new().inherit_stdio().build();
-    let openvino = OpenvinoBackend::default();
+    let preopen_dir = cap_std::fs::Dir::open_ambient_dir("..", cap_std::ambient_authority())?;
+    println!("Opened dirs..{:?}", preopen_dir);
+    let models_dir = preopen_dir.open_dir("models")?;
+    let model_file = models_dir.exists("llama-2-7b-chat.Q5_K_M.gguf");
+    println!("models_file exists: {}", model_file);
+
+    let wasi = WasiCtxBuilder::new()
+        .inherit_stdio()
+        .preopened_dir(models_dir, DirPerms::all(), FilePerms::all(), "models")
+        .build();
+    println!("Created wasi context.");
+
+    let llama_cpp = LlamaCppBackend::default();
     let registry = InMemoryRegistry::new();
-    let wasi_nn = WasiNnCtx::new([openvino.into()], registry.into());
+    let wasi_nn = WasiNnCtx::new([llama_cpp.into()], registry.into());
     let command_ctx = CommandCtx {
         table: ResourceTable::new(),
         wasi,
@@ -73,12 +90,15 @@ async fn main() -> wasmtime::Result<()> {
     })?;
     //wasmtime_wasi_nn::witx::add_to_linker(&mut linker, |s: &mut CommandCtx| &mut s.wasi_nn)?;
 
-    let (inf, _instance) =
-        Inf::instantiate_async(&mut store, &component, &component_linker).await?;
+    //let (inf, _instance) =
+    //   Inf::instantiate_async(&mut store, &component, &component_linker).await?;
+    let (inf, _instance) = Inf::instantiate(&mut store, &component, &component_linker)?;
 
-    println!("inf-wasi version: {}", inf.call_version(&mut store).await?);
+    //println!("inf-wasi version: {}", inf.call_version(&mut store).await?);
+    println!("inf-wasi version: {}", inf.call_version(&mut store)?);
 
-    let result = inf.call_inference(&mut store).await?;
+    //let result = inf.call_inference(&mut store).await?;
+    let result = inf.call_inference(&mut store)?;
     println!("inf-wasi inference: {}", result);
     Ok(())
 }
