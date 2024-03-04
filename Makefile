@@ -7,6 +7,8 @@ endif
 
 engine_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/engine.wasm
 engine_component=target/engine-component.wasm
+inference_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/inference.wasm
+inference_component=target/inference-component.wasm
 
 ### Build core wasm module and utitility targets
 build:
@@ -38,12 +40,19 @@ build-inference:
 	cargo b -p inference ${BUILD} --target wasm32-wasi
 
 ### WebAssembly Component Model targets
-.PHONY: component
-component:
+.PHONY: engine-component
+engine-component:
 	wasm-tools component new ${engine_core_wasm} \
 	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
 	-o ${engine_component}
 	wasm-tools strip $(engine_component) -o $(engine_component)
+
+.PHONY: component
+inference-component:
+	wasm-tools component new ${inference_core_wasm} \
+	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
+	-o ${inference_component}
+	wasm-tools strip $(inference_component) -o $(inference_component)
 
 .PHONY: print-component-wit
 print-component-wit:
