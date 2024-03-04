@@ -17,7 +17,7 @@ use wasmtime_wasi_nn::InMemoryRegistry;
 
 bindgen!({
     path: "../wit",
-    world: "inf",
+    world: "engine",
     async: false,
 });
 
@@ -92,7 +92,7 @@ fn main() -> wasmtime::Result<()> {
 
     //let (inf, _instance) =
     //   Inf::instantiate_async(&mut store, &component, &component_linker).await?;
-    let (inf, _instance) = Inf::instantiate(&mut store, &component, &component_linker)?;
+    let (inf, _instance) = Engine::instantiate(&mut store, &component, &component_linker)?;
 
     //println!("inf-wasi version: {}", inf.call_version(&mut store).await?);
     println!("inf-wasi version: {}", inf.call_version(&mut store)?);

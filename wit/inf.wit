@@ -1,7 +1,32 @@
 package inf:wasi;
 
-world inf {
+/// Inference (inf) is a WebAssembly Interface Types (WIT) interface for
+/// language model inference.
+world engine {
+  /// The `version` function returns the version of the inference interface.
   export version: func() -> string;
 
+  /// Initialize the inference runtime engine.
+  /// TODO: use a result as the return type instead of bool
+  //export init: func(config: config-types.config) -> bool;
+
+  /// Run the inference
   export inference: func() -> string;
+}
+
+world config-world {
+  export inf-config;
+}
+
+interface config-types {
+  record config {
+    model-path: string,
+    prompt: string,
+  }
+}
+
+interface inf-config {
+  use config-types.{config};
+
+  get-config: func() -> config;
 }

@@ -5,7 +5,7 @@ use wasi_nn::tensor;
 
 wit_bindgen::generate!({
     path: "wit/inf.wit",
-    world: "inf",
+    world: "engine",
     exports: {
         world: Exports,
     },
