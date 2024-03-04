@@ -15,6 +15,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ed570934406eb16438a4e976b1b4500774099c13b8cb96eec99f620f05090ddf"
 
 [[package]]
+name = "engine"
+version = "0.1.0"
+dependencies = [
+ "serde_json",
+ "wasi-nn",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "equivalent"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -50,15 +59,6 @@ dependencies = [
  "equivalent",
  "hashbrown",
  "serde",
-]
-
-[[package]]
-name = "inf-wasi"
-version = "0.1.0"
-dependencies = [
- "serde_json",
- "wasi-nn",
- "wit-bindgen",
 ]
 
 [[package]]

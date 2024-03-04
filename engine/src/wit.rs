@@ -4,7 +4,7 @@ use wasi_nn::inference;
 use wasi_nn::tensor;
 
 wit_bindgen::generate!({
-    path: "wit/inf.wit",
+    path: "../wit/inf.wit",
     world: "engine",
     exports: {
         world: Exports,

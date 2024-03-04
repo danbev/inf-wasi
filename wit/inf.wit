@@ -14,11 +14,13 @@ world engine {
   export inference: func() -> string;
 }
 
+/*
 world inference {
-  import engine
-  import inf-config
-  export run: func() -> string
+  import engine;
+  import inf-config;
+  export run: func() -> string;
 }
+*/
 
 world config-world {
   export inf-config;

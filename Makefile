@@ -10,7 +10,10 @@ inf_component=target/inf-wasi-component.wasm
 
 ### Build core wasm module and utitility targets
 build:
-	cargo b ${BUILD} --target wasm32-wasi
+	cargo b -p engine ${BUILD} --target wasm32-wasi
+
+show-packages:
+	@cargo metadata --format-version=1 --no-deps | jq -r '.packages[].name'
 
 # This target can be useful to inspect the expanded wit-bindgen macros.
 cargo-expand:
