@@ -129,6 +129,27 @@ can now configure it so that wasmedge is used from there.
 
 ### Implementation
 
+#### Configuration
+So the idea is to have a module that is pretty much self contained, apart from
+the model file(s) that it needs to run. The should be one component/world for
+the inference engine itself. This would mostly be a static module that is used
+to componse the end users module.
+
+There would also be a config component which contains the configuration for the
+engine. This could contains information like the model path, configuration
+options for the engine, the prompt to be used with the engine. The prompt being
+part of the configuration might sound strange but simply switching from one
+model to another might require a different prompt. I'm imaging that using a
+separate tool for testing out a model and writing the prompt for that specific
+model and any other tuning parameters like temperature etc would be collected
+into the configuration component, which would then be regenereated and componsed
+ with the inference engine component to create the end users module.
+
+__wip_
+```
+modules/inf-wasi-component.wasm
+```
+
 #### Llama.cpp support
 Currently WasmEdge has a plugin for llama.cpp and they have created their own
 fork of wasm-nn to add the Ggml graph encoding. I've been working on adding
