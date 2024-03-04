@@ -9,6 +9,8 @@ engine_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/engine.wasm
 engine_component=target/engine-component.wasm
 inference_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/inference.wasm
 inference_component=target/inference-component.wasm
+config_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/config.wasm
+config_component=target/config-component.wasm
 
 ### Build core wasm module and utitility targets
 build-engine:
@@ -39,6 +41,9 @@ print-core-wat:
 build-inference:
 	cargo b -p inference ${BUILD} --target wasm32-wasi
 
+build-config:
+	cargo b -p config ${BUILD} --target wasm32-wasi
+
 ### WebAssembly Component Model targets
 .PHONY: engine-component
 engine-component:
@@ -47,12 +52,26 @@ engine-component:
 	-o ${engine_component}
 	wasm-tools strip $(engine_component) -o $(engine_component)
 
-.PHONY: component
+.PHONY: inference-component
 inference-component:
 	wasm-tools component new ${inference_core_wasm} \
 	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
 	-o ${inference_component}
 	wasm-tools strip $(inference_component) -o $(inference_component)
+
+.PHONY: config-component
+config-component:
+	wasm-tools component new ${config_core_wasm} \
+	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
+	-o ${config_component}
+	wasm-tools strip $(config_component) -o $(config_component)
+
+.PHONY: compose
+compose:
+	@wasm-tools compose target/inference-component.wasm \
+	-d target/engine-component.wasm \
+	-d target/config-component.wasm \
+	-o target/composed.wasm
 
 .PHONY: print-component-wit
 print-component-wit:

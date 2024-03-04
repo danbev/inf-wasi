@@ -29,6 +29,7 @@ world inference {
 
 world config-world {
   export config;
+  export config-types;
 }
 
 interface config-types {
