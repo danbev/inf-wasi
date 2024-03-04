@@ -4,19 +4,19 @@ use wasmtime::{
     Config, Engine as WasmtimeEngine, Store,
 };
 
+use std::path::Path;
 use wasmtime_wasi::DirPerms;
 use wasmtime_wasi::FilePerms;
 use wasmtime_wasi::WasiCtx;
 use wasmtime_wasi::WasiCtxBuilder;
 use wasmtime_wasi::WasiView;
-use wasmtime_wasi_nn::WasiNnCtx;
-
 use wasmtime_wasi_nn::backend::llama_cpp::LlamaCppBackend;
 use wasmtime_wasi_nn::InMemoryRegistry;
+use wasmtime_wasi_nn::WasiNnCtx;
 
 bindgen!({
     path: "../../wit",
-    world: "engine",
+    world: "engine-world",
     async: false,
 });
 
@@ -34,8 +34,6 @@ impl WasiView for CommandCtx {
         &mut self.wasi
     }
 }
-
-use std::path::Path;
 
 fn main() -> wasmtime::Result<()> {
     println!("Rust inf-wasi bindings example!");
@@ -74,11 +72,14 @@ fn main() -> wasmtime::Result<()> {
         &mut s.wasi_nn
     })?;
 
-    let (engine, _instance) = Engine::instantiate(&mut store, &component, &component_linker)?;
+    let (engine, _instance) = EngineWorld::instantiate(&mut store, &component, &component_linker)?;
 
-    println!("engine version: {}", engine.call_version(&mut store)?);
+    println!(
+        "engine version: {}",
+        engine.interface0.call_version(&mut store)?
+    );
 
-    let result = engine.call_inference(&mut store)?;
+    let result = engine.interface0.call_inference(&mut store)?;
     println!("engine inference: {}", result);
     Ok(())
 }

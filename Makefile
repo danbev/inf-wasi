@@ -33,6 +33,10 @@ wasi-nn-gen:
 print-core-wat:
 	wasm-tools print ${engine_core_wasm} | rustfilt
 
+### inference component targets
+build-inference:
+	cargo b -p inference ${BUILD} --target wasm32-wasi
+
 ### WebAssembly Component Model targets
 .PHONY: component
 component:

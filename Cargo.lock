@@ -1221,6 +1221,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "inference"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "serde_json",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "io-extras"
 version = "0.18.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"

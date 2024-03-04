@@ -1,21 +1,21 @@
+use crate::wit::exports::inf::wasi::engine::Guest;
 use serde_json::json;
+use std::path::PathBuf;
 use wasi_nn::graph;
 use wasi_nn::inference;
 use wasi_nn::tensor;
 
 wit_bindgen::generate!({
     path: "../wit/inf.wit",
-    world: "engine",
+    world: "engine-world",
     exports: {
-        world: Exports,
+        "inf:wasi/engine": Engine
     },
 });
 
-use std::path::PathBuf;
+struct Engine;
 
-struct Exports;
-
-impl Guest for Exports {
+impl Guest for Engine {
     fn version() -> String {
         crate::version().to_string()
     }
