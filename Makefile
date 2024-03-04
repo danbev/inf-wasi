@@ -1,9 +1,16 @@
-inf_core_wasm=target/wasm32-wasi/release/inf_wasi.wasm
+ifeq ($(Build), debug)
+        BUILD_TYPE = debug
+else
+        BUILD_TYPE = release
+        BUILD = "--$(BUILD_TYPE)"
+endif
+
+inf_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/inf_wasi.wasm
 inf_component=target/inf-wasi-component.wasm
 
 ### Build core wasm module and utitility targets
 build:
-	cargo b --release --target wasm32-wasi
+	cargo b ${BUILD} --target wasm32-wasi
 
 # This target can be useful to inspect the expanded wit-bindgen macros.
 cargo-expand:
@@ -40,7 +47,7 @@ wit-print-wat:
 
 #### Rust bindings and runtime targets
 rust-bindings:
-	cd rust && cargo build --release
+	cd rust && cargo build ${BUILD}
 
 run-rust-bindings:
 	cd rust && env RUST_BACKTRACE=full  WASMTIME_BACKTRACE_DETAILS=1 cargo run --release
