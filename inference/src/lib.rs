@@ -19,8 +19,10 @@ impl Guest for Export {
         let config = config::get_config();
         let model_path = config.model_path;
         println!("Model path: {:?}", model_path);
+        let prompt = config.prompt;
+        println!("Prompt: {:?}", prompt);
 
-        let result = engine::inference();
+        let result = engine::inference(&prompt);
         println!("Result: {:?}", result);
         "testing...".to_string()
     }

@@ -11,7 +11,7 @@ inference_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/inference.wasm
 inference_component=target/inference-component.wasm
 
 ### Build core wasm module and utitility targets
-build:
+build-engine:
 	cargo b -p engine ${BUILD} --target wasm32-wasi
 
 show-packages:

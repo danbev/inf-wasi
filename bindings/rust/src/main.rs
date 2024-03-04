@@ -79,7 +79,8 @@ fn main() -> wasmtime::Result<()> {
         engine.interface0.call_version(&mut store)?
     );
 
-    let result = engine.interface0.call_inference(&mut store)?;
+    let prompt = "TODO: Add this to config. Not used at the moment!";
+    let result = engine.interface0.call_inference(&mut store, &prompt)?;
     println!("engine inference: {}", result);
     Ok(())
 }

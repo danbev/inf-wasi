@@ -16,7 +16,9 @@ interface engine {
   //export init: func(config: config-types.config) -> bool;
 
   /// Run the inference
-  inference: func() -> string;
+  /// TODO: use a result as the return type instead of bool, and make it and
+  /// record type perhaps with different types, could be string or raw logits.
+  inference: func(prompt: string) -> string;
 }
 
 world inference-world {

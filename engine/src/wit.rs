@@ -20,7 +20,7 @@ impl Guest for Engine {
         crate::version().to_string()
     }
 
-    fn inference() -> String {
+    fn inference(prompt: String) -> String {
         // TODO: this should be part of the configuration.
         let model_path = PathBuf::from("models/llama-2-7b-chat.Q5_K_M.gguf");
 
