@@ -36,6 +36,7 @@ component:
 	wasm-tools component new ${inf_core_wasm} \
 	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
 	-o ${inf_component}
+	wasm-tools strip $(inf_component) -o $(inf_component)
 
 .PHONY: inspect-wit
 inspect-wit:
