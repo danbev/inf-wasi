@@ -17,6 +17,11 @@ download-model:
 build:
 	cargo b --release --target wasm32-wasi
 
+# This target can be useful to inspect the expanded wit-bindgen macros.
+cargo-expand:
+	cargo expand --target=wasm32-wasi
+
+
 # Requires cargo install wit-bindgen-cli. This can be used to inspect the
 # generated output (Rust source) from the wit file.
 wit-bindgen:
