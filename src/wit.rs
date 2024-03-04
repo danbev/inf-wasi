@@ -3,10 +3,6 @@ use wasi_nn::graph;
 use wasi_nn::inference;
 use wasi_nn::tensor;
 
-//#[path = "ml.rs"]
-//mod wasi;
-//use crate::wit::wasi::wasi::nn as wasi_nn;
-
 wit_bindgen::generate!({
     path: "wit/inf.wit",
     world: "inf",
@@ -41,7 +37,7 @@ impl Guest for Exports {
 
         let graph = graph::load(
             &builders,
-            graph::GraphEncoding::Gguf,
+            graph::GraphEncoding::Ggml,
             graph::ExecutionTarget::Cpu,
         )
         .unwrap();
