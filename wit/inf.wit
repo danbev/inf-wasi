@@ -21,14 +21,10 @@ interface engine {
   inference: func(prompt: string) -> string;
 }
 
-world inference-world {
+world inference {
   import engine;
   import config;
-  export inference;
-}
-
-interface inference {
-  compute: func() -> string;
+  export compute: func() -> string;
 }
 
 world config-world {

@@ -1,13 +1,11 @@
-use crate::exports::inf::wasi::inference::Guest;
 use crate::inf::wasi::config;
 use crate::inf::wasi::engine;
 
 wit_bindgen::generate!({
     path: "../wit",
-    world: "inference-world",
+    world: "inference",
     exports: {
         world: Export,
-         "inf:wasi/inference": Export,
     },
 });
 
