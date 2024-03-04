@@ -5,8 +5,8 @@ else
         BUILD = "--$(BUILD_TYPE)"
 endif
 
-inf_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/inf_wasi.wasm
-inf_component=target/inf-wasi-component.wasm
+engine_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/engine.wasm
+engine_component=target/engine-component.wasm
 
 ### Build core wasm module and utitility targets
 build:
@@ -31,34 +31,34 @@ wasi-nn-gen:
 
 .PHONY: print-core-wat
 print-core-wat:
-	wasm-tools print ${inf_core_wasm} | rustfilt
+	wasm-tools print ${engine_core_wasm} | rustfilt
 
 ### WebAssembly Component Model targets
 .PHONY: component
 component:
-	wasm-tools component new ${inf_core_wasm} \
+	wasm-tools component new ${engine_core_wasm} \
 	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
-	-o ${inf_component}
-	wasm-tools strip $(inf_component) -o $(inf_component)
+	-o ${engine_component}
+	wasm-tools strip $(engine_component) -o $(engine_component)
 
 .PHONY: print-component-wit
 print-component-wit:
-	wasm-tools component wit ${inf_component}
+	wasm-tools component wit ${engine_component}
 
 .PHONY: print-component-wat
 print-component-wat:
-	wasm-tools print ${inf_component}
+	wasm-tools print ${engine_component}
 
 .PHONY: objdump-component
 objdump-component:
-	@wasm-tools objdump $(inf_component)
+	@wasm-tools objdump $(engine_component)
 
-#### Rust bindings and runtime targets
+### Rust bindings and runtime targets
 rust-bindings:
-	cd rust && cargo build ${BUILD}
+	cargo b -p rust-bindings ${BUILD}
 
 run-rust-bindings:
-	cd rust && env RUST_BACKTRACE=full  WASMTIME_BACKTRACE_DETAILS=1 cargo run --release
+	@env RUST_BACKTRACE=full WASMTIME_BACKTRACE_DETAILS=1 cargo r -p rust-bindings ${BUILD}
 
 ### WasmEdge wasi-nn example
 build-wasmedge-wasi-nn-example:

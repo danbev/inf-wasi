@@ -21,7 +21,9 @@ impl Guest for Exports {
     }
 
     fn inference() -> String {
-        let model_path = PathBuf::from("../models/llama-2-7b-chat.Q5_K_M.gguf");
+        // TODO: this should be part of the configuration.
+        let model_path = PathBuf::from("models/llama-2-7b-chat.Q5_K_M.gguf");
+
         let graph_builder: graph::GraphBuilder = model_path.to_str().unwrap().as_bytes().to_vec();
         let builders = vec![graph_builder];
 

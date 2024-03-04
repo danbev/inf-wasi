@@ -16,7 +16,7 @@ use wasmtime_wasi_nn::backend::llama_cpp::LlamaCppBackend;
 use wasmtime_wasi_nn::InMemoryRegistry;
 
 bindgen!({
-    path: "../wit",
+    path: "../../wit",
     world: "engine",
     async: false,
 });
@@ -46,13 +46,15 @@ fn main() -> wasmtime::Result<()> {
     config.async_support(false);
 
     let engine = WasmtimeEngine::new(&config)?;
-    let bytes = include_bytes!("../../target/inf-wasi-component.wasm");
+    let bytes = include_bytes!("../../../target/engine-component.wasm");
     let component = Component::from_binary(&engine, bytes)?;
     println!("Loaded component module.");
 
-    let preopen_dir = cap_std::fs::Dir::open_ambient_dir("..", cap_std::ambient_authority())?;
-    println!("Opened dirs..{:?}", preopen_dir);
+    let preopen_dir = cap_std::fs::Dir::open_ambient_dir(".", cap_std::ambient_authority())?;
+    println!("propen_dir: {:?}", preopen_dir);
     let models_dir = preopen_dir.open_dir("models")?;
+
+    // TODO: remove this after development.
     let model_file = models_dir.exists("llama-2-7b-chat.Q5_K_M.gguf");
     println!("models_file exists: {}", model_file);
 
