@@ -7,7 +7,9 @@ edition = "2021"
 anyhow = "1.0.71"
 wasmtime = { path = "/home/danielbevenius/work/wasm/wasmtime/crates/wasmtime", features = ["component-model"] }
 wasmtime-wasi = { path = "/home/danielbevenius/work/wasm/wasmtime/crates/wasi"}
-wasmtime-wasi-nn = { path = "/home/danielbevenius/work/wasm/wasmtime/crates/wasi-nn" }
+wasmtime-wasi-nn = { path = "/home/danielbevenius/work/wasm/wasmtime/crates/wasi-nn", features = ["llama_cpp"] }
+wasi-common = "18.0.2"
+cap-std = "3.0.0"
 tokio = { version = "1", features = ["full"] }
 serde_json = { version = "1.0.89", features = ["float_roundtrip", "arbitrary_precision", "preserve_order"] }
 
