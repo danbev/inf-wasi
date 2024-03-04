@@ -26,8 +26,8 @@ wit-bindgen:
 wasi-nn-gen:
 	wit-bindgen rust wit/wasi-nn.wit
 
-.PHONY: print-wat
-print-wat:
+.PHONY: print-core-wat
+print-core-wat:
 	wasm-tools print ${inf_core_wasm} | rustfilt
 
 ### WebAssembly Component Model targets
@@ -38,13 +38,17 @@ component:
 	-o ${inf_component}
 	wasm-tools strip $(inf_component) -o $(inf_component)
 
-.PHONY: inspect-wit
-inspect-wit:
+.PHONY: print-component-wit
+print-component-wit:
 	wasm-tools component wit ${inf_component}
 
-.PHONY: wit-print-wat
-wit-print-wat:
+.PHONY: print-component-wat
+print-component-wat:
 	wasm-tools print ${inf_component}
+
+.PHONY: objdump-component
+objdump-component:
+	@wasm-tools objdump $(inf_component)
 
 #### Rust bindings and runtime targets
 rust-bindings:
@@ -81,3 +85,8 @@ download-model:
 	@mkdir -p models 
 	curl -LO https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf \
 		--output models/llama-2-7b-chat.Q5_K_M.gguf
+
+#### Testing targets
+.PHONY: rust-all
+rust-all: build component run-rust-bindings
+
