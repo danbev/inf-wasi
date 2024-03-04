@@ -127,6 +127,31 @@ $ cmake --install . --prefix /home/danielbevenius/.local-wasmedge
 So the above will configure and build wasmedge into the dist directory. We
 can now configure it so that wasmedge is used from there.
 
+### Implementation
+
+#### Llama.cpp support
+Currently WasmEdge has a plugin for llama.cpp and they have created their own
+fork of wasm-nn to add the Ggml graph encoding. I've been working on adding
+llama.cpp support to Wasmtime and would also need to make this change. Also
+the current version of WasmEdge's fork uses the older .witx file format and not
+the newer .wit format. I've updated the [wasi-nn rust bindings] to generate Rust
+code for the new .wit format and it also manually add the ggml graph encoding
+(which I actually called gguf but think that might be a mistake).
+
+#### Wasmtime support
+To build wasi-nn in wasmtime the following feature needs to be enabled:
+```console
+$ cargo b --features="llama_cpp"
+```
+The wasi-nn spec is a submodule in crates/wasi-nn and I've currently manually
+updated the wasi-nn.wit file to include the ggml graph encoding.
+
+
+[wasi-nn-pr]: https://github.com/WebAssembly/wasi-nn/pull/66
+[Ggml]: https://github.com/second-state/wasmedge-wasi-nn/blob/ggml/rust/src/graph.rs
+[wasi-nn rust bindings]: https://github.com/bytecodealliance/wasi-nn.git
+
+
 [llamafile]: https://github.com/Mozilla-Ocho/llamafile
 [run-llama.sh]: https://www.secondstate.io/articles/run-llm-sh/
 [llmstudio]: https://lmstudio.ai/
