@@ -21,16 +21,6 @@ impl Guest for Exports {
     }
 
     fn inference() -> String {
-        // TODO: Figure out how to create a component adapter for wasi-nn
-        let model_name = "llama-chat";
-        let _model_options = json!({
-            "stream-stdout": true,
-            "enable-log": true,
-            "ctx-size": 1024,
-            "n-predict": 512,
-            "n-gpu-layers": 33
-        });
-
         let model_path = PathBuf::from("../models/llama-2-7b-chat.Q5_K_M.gguf");
         let graph_builder: graph::GraphBuilder = model_path.to_str().unwrap().as_bytes().to_vec();
         let builders = vec![graph_builder];
@@ -75,25 +65,6 @@ impl Guest for Exports {
         inference::compute(context).unwrap();
         let output = inference::get_output(context, 3).unwrap();
 
-        /*
-        context
-            .set_input(
-                1,
-                wasi_nn::tensor::TensorType::U8,
-                &[1],
-                &options.to_string().as_bytes().to_vec(),
-            )
-            .unwrap();
-        */
-
-        /*
-        let graph = GraphBuilder::new(GraphEncoding::Ggml, ExecutionTarget::GPU)
-            //.config(model_options.to_string())
-            .build_from_cache(model_name)
-            .expect("Failed to build graph from cache");
-        */
-        //let mut context: GraphExecutionContext = graph.init_execution_context().unwrap();
-        //println!("context: {}", context);
         "inference result".to_string()
     }
 }
