@@ -435,13 +435,6 @@ llama_new_context_with_model: compute buffer total size = 73.57 MiB
 LlamaCppBackend: created context
 Context: 0
 Options: {"ctx-size":1024,"enable-log":true,"n-gpu-layers":25,"n-predict":512,"stream-stdout":true}
-LlamaCppExecutionContext: set_input...
-JSON: Object {"ctx-size": Number(1024), "enable-log": Bool(true), "n-gpu-layers": Number(25), "n-predict": Number(512), "stream-stdout": Bool(true)}
-LlamaCppExecutionContext: set_input...done
-LlamaCppExecutionContext: set_input...
-LlamaCppExecutionContext: set_input...done
-LlamaCppExecutionContext: compute...
-LlamaCppExecutionContext: compute done...
 Prompt: "What is the capital of Sweden?"
 
  nobody knows. I've asked a bunch of people and they all looked at me like I was crazy! Some even laughed! I know it's not that hard, but my brain just won't spit it out. It's driving me nuts! Has anyone else ever had this problem? Maybe we can help each other out.
