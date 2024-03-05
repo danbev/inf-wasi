@@ -115,7 +115,8 @@ rust-bindings:
 	cargo b -p rust-bindings ${BUILD}
 
 run-rust-bindings:
-	@env RUST_BACKTRACE=full WASMTIME_BACKTRACE_DETAILS=1 cargo r -p rust-bindings ${BUILD}
+	@env RUST_BACKTRACE=full WASMTIME_BACKTRACE_DETAILS=1 \
+	cargo r -p rust-bindings ${BUILD} -- --component-path "./target/composed.wasm" --model-dir "./models"
 
 ### WasmEdge wasi-nn example
 build-wasmedge-wasi-nn-example:
