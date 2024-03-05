@@ -1,4 +1,5 @@
-use crate::wit::exports::inf::wasi::engine::Guest;
+use crate::wit::exports::inf::wasi::engine::GuestEngine;
+use crate::wit::inf::wasi::config_types::Config;
 use serde_json::json;
 use std::path::PathBuf;
 use wasi_nn::graph;
@@ -9,20 +10,31 @@ wit_bindgen::generate!({
     path: "../wit/inf.wit",
     world: "engine-world",
     exports: {
-        "inf:wasi/engine": Engine
+        "inf:wasi/engine": Export,
+        "inf:wasi/engine/engine": EngineImpl,
     },
 });
 
-struct Engine;
+pub struct EngineImpl {
+    pub model_path: String,
+    pub prompt: String,
+}
 
-impl Guest for Engine {
+impl GuestEngine for EngineImpl {
+    fn new(config: Config) -> EngineImpl {
+        EngineImpl {
+            model_path: config.model_path,
+            prompt: config.prompt,
+        }
+    }
+
     fn version() -> String {
         crate::version().to_string()
     }
 
-    fn inference(prompt: String) -> String {
+    fn inference(&self, prompt: String) -> String {
         // TODO: this should be part of the configuration.
-        let model_path = PathBuf::from("models/llama-2-7b-chat.Q5_K_M.gguf");
+        let model_path = PathBuf::from(&self.model_path);
 
         let graph_builder: graph::GraphBuilder = model_path.to_str().unwrap().as_bytes().to_vec();
         let builders = vec![graph_builder];
@@ -39,6 +51,8 @@ impl Guest for Engine {
 
         println!("Context: {}", context);
 
+        // TODO: all these options should be part of the configuration object
+        // is some way. This needs to be figured out.
         let options = json!({
             "stream-stdout": true,
             "enable-log": true,
@@ -56,7 +70,7 @@ impl Guest for Engine {
 
         inference::set_input(context, 1, &options_tensor).unwrap();
 
-        let prompt = "What is LoRA?";
+        let prompt = &self.prompt;
         let prompt_tensor = tensor::Tensor {
             dimensions: vec![1_u32],
             tensor_type: tensor::TensorType::U8,
@@ -70,3 +84,7 @@ impl Guest for Engine {
         "inference result".to_string()
     }
 }
+
+//struct Export;
+
+//impl Guest for Export {}

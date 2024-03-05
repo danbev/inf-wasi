@@ -5,23 +5,23 @@ world engine-world {
   export engine;
 }
 
-/// Inference (inf) is a WebAssembly Interface Types (WIT) interface for
-/// language model inference.
 interface engine {
-  /// The `version` function returns the version of the inference interface.
-  version: func() -> string;
+  use config-types.{config};
 
-  /// Initialize the inference runtime engine.
-  /// TODO: use a result as the return type instead of bool
-  //export init: func(config: config-types.config) -> bool;
+  resource engine {
+    constructor(config: config);
 
-  /// Run the inference
-  /// TODO: use a result as the return type instead of bool, and make it and
-  /// record type perhaps with different types, could be string or raw logits.
-  inference: func(prompt: string) -> string;
+    /// The `version` function returns the version of the inference engine.
+    version: static func() -> string;
+
+    /// Run the inference
+    /// TODO: use a result as the return type instead of bool, and make it and
+    /// record type perhaps with different types, could be string or raw logits.
+    inference: func(prompt: string) -> string;
+  }
 }
 
-world inference {
+world inference-world {
   import engine;
   import config;
   export compute: func() -> string;

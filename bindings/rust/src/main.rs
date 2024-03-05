@@ -13,10 +13,11 @@ use wasmtime_wasi::WasiView;
 use wasmtime_wasi_nn::backend::llama_cpp::LlamaCppBackend;
 use wasmtime_wasi_nn::InMemoryRegistry;
 use wasmtime_wasi_nn::WasiNnCtx;
+//use crate::exports::inf::wasi::config_types::Config;
 
 bindgen!({
     path: "../../wit",
-    world: "engine-world",
+    world: "inference-world",
     async: false,
 });
 
@@ -42,7 +43,7 @@ fn main() -> wasmtime::Result<()> {
     config.async_support(false);
 
     let engine = WasmtimeEngine::new(&config)?;
-    let bytes = include_bytes!("../../../target/engine-component.wasm");
+    let bytes = include_bytes!("../../../target/composed.wasm");
     let component = Component::from_binary(&engine, bytes)?;
     println!("Loaded component module.");
 
@@ -72,15 +73,10 @@ fn main() -> wasmtime::Result<()> {
         &mut s.wasi_nn
     })?;
 
-    let (engine, _instance) = EngineWorld::instantiate(&mut store, &component, &component_linker)?;
+    let (inference_world, _instance) =
+        InferenceWorld::instantiate(&mut store, &component, &component_linker)?;
 
-    println!(
-        "engine version: {}",
-        engine.interface0.call_version(&mut store)?
-    );
-
-    let prompt = "TODO: Add this to config. Not used at the moment!";
-    let result = engine.interface0.call_inference(&mut store, &prompt)?;
-    println!("engine inference: {}", result);
+    let result = inference_world.call_compute(&mut store)?;
+    println!("result: {:?}", result);
     Ok(())
 }

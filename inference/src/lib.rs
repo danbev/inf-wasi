@@ -2,10 +2,10 @@ use crate::inf::wasi::config;
 use crate::inf::wasi::engine;
 
 wit_bindgen::generate!({
-    path: "../wit",
-    world: "inference",
+    path: "../wit/inf.wit",
+    world: "inference-world",
     exports: {
-        world: Export,
+        world: Export
     },
 });
 
@@ -15,13 +15,9 @@ impl Guest for Export {
     fn compute() -> String {
         println!("Running inference");
         let config = config::get_config();
-        let model_path = config.model_path;
-        println!("Model path: {:?}", model_path);
-        let prompt = config.prompt;
-        println!("Prompt: {:?}", prompt);
-
-        let result = engine::inference(&prompt);
+        let engine = engine::Engine::new(&config);
+        let result = engine.inference(&config.prompt);
         println!("Result: {:?}", result);
-        "testing...".to_string()
+        result
     }
 }
