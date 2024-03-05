@@ -24,7 +24,7 @@ impl Guest for Exports {
             .to_string();
         Config {
             model_path,
-            prompt: "What is LoRA?".to_string(),
+            prompt: "What is the capital of Sweden?".to_string(),
         }
     }
 }

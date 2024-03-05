@@ -80,8 +80,9 @@ impl GuestEngine for EngineImpl {
 
         inference::compute(context).unwrap();
         let output = inference::get_output(context, 3).unwrap();
-
-        "inference result".to_string()
+        println!("Output: {:?}", output);
+        String::from_utf8(output).unwrap()
+        //"inference result".to_string()
     }
 }
 

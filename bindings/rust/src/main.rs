@@ -1,82 +1,11 @@
-use wasmtime::component::ResourceTable;
-use wasmtime::{
-    component::{bindgen, Component, Linker as ComponentLinker},
-    Config, Engine as WasmtimeEngine, Store,
-};
-
-use std::path::Path;
-use wasmtime_wasi::DirPerms;
-use wasmtime_wasi::FilePerms;
-use wasmtime_wasi::WasiCtx;
-use wasmtime_wasi::WasiCtxBuilder;
-use wasmtime_wasi::WasiView;
-use wasmtime_wasi_nn::backend::llama_cpp::LlamaCppBackend;
-use wasmtime_wasi_nn::InMemoryRegistry;
-use wasmtime_wasi_nn::WasiNnCtx;
-//use crate::exports::inf::wasi::config_types::Config;
-
-bindgen!({
-    path: "../../wit",
-    world: "inference-world",
-    async: false,
-});
-
-struct CommandCtx {
-    table: ResourceTable,
-    wasi: WasiCtx,
-    wasi_nn: WasiNnCtx,
-}
-
-impl WasiView for CommandCtx {
-    fn table(&mut self) -> &mut ResourceTable {
-        &mut self.table
-    }
-    fn ctx(&mut self) -> &mut WasiCtx {
-        &mut self.wasi
-    }
-}
+use rust_bindings::Inference;
+use std::path::PathBuf;
 
 fn main() -> wasmtime::Result<()> {
-    println!("Rust inf-wasi bindings example!");
-    let mut config = Config::new();
-    config.wasm_component_model(true);
-    config.async_support(false);
-
-    let engine = WasmtimeEngine::new(&config)?;
-    let bytes = include_bytes!("../../../target/composed.wasm");
-    let component = Component::from_binary(&engine, bytes)?;
-    println!("Loaded component module.");
-
-    let path = Path::new(".");
-    let preopen_dir = cap_std::fs::Dir::open_ambient_dir(path, cap_std::ambient_authority())?;
-    println!("prepen_dir: {}", path.display());
-    let models_dir = preopen_dir.open_dir("models")?;
-
-    let wasi = WasiCtxBuilder::new()
-        .inherit_stdio()
-        .preopened_dir(models_dir, DirPerms::all(), FilePerms::all(), "models")
-        .build();
-
-    let llama_cpp = LlamaCppBackend::default();
-    let registry = InMemoryRegistry::new();
-    let wasi_nn = WasiNnCtx::new([llama_cpp.into()], registry.into());
-    let command_ctx = CommandCtx {
-        table: ResourceTable::new(),
-        wasi,
-        wasi_nn,
-    };
-    let mut store = Store::new(&engine, command_ctx);
-
-    let mut component_linker = ComponentLinker::new(&engine);
-    wasmtime_wasi::command::sync::add_to_linker(&mut component_linker)?;
-    wasmtime_wasi_nn::wit::ML::add_to_linker(&mut component_linker, |s: &mut CommandCtx| {
-        &mut s.wasi_nn
-    })?;
-
-    let (inference_world, _instance) =
-        InferenceWorld::instantiate(&mut store, &component, &component_linker)?;
-
-    let result = inference_world.call_compute(&mut store)?;
+    let component_path = PathBuf::from("./target/composed.wasm");
+    let model_dir = PathBuf::from("./models");
+    let inference = Inference::new(component_path, model_dir)?;
+    let result = inference.compute();
     println!("result: {:?}", result);
     Ok(())
 }
