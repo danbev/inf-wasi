@@ -25,9 +25,20 @@ cargo-expand:
 
 # Requires cargo install wit-bindgen-cli. This can be used to inspect the
 # generated output (Rust source) from the wit file.
-.PHONY: wit-bindgen
-wit-bindgen:
-	wit-bindgen rust wit/inf.wit -w inf --exports world=inf
+.PHONY: wit-bindgen-engine
+wit-bindgen-engine:
+	wit-bindgen rust wit/inf.wit -w engine-world --out-dir target \
+	--exports "inf:wasi/engine=Engine,inf:wasi/config=Config"
+
+.PHONY: wit-bindgen-config
+wit-bindgen-config:
+	wit-bindgen rust wit/inf.wit -w config-world --out-dir target \
+	--exports "inf:wasi/config=Config"
+
+.PHONY: wit-bindgen-inference
+wit-bindgen-inference:
+	wit-bindgen rust wit/inf.wit -w inference --out-dir target \
+	--exports "world=Export"
 
 # This target can be used to generate the Rust bindings from the wasi-nn.wit.
 wasi-nn-gen:
