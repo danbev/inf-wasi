@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 serde_json = "1.0"
-wit-bindgen = { version = "0.19.2", default-features = true, features = ['macros'] }
+wit-bindgen = { workspace = true }
 
 [lib]
 crate-type = ["cdylib"]

@@ -7,6 +7,9 @@ members = [
     "config",
 ]
 
+[workspace.dependencies]
+wit-bindgen = { version = "0.19.2", default-features = true, features = ['macros'] }
+
 [profile.release]
 opt-level = 3
 debug-assertions = false
