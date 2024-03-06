@@ -90,10 +90,10 @@ impl WasmtimeInference {
         })
     }
 
-    pub fn compute(self) -> String {
+    pub fn compute(self, prompt: Option<&str>) -> String {
         let result = self
             .inference_world
-            .call_compute(self.store)
+            .call_compute(self.store, prompt)
             .context("Failed to call compute")
             .unwrap();
         result

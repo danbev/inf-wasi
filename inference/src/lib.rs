@@ -12,11 +12,14 @@ wit_bindgen::generate!({
 struct Export;
 
 impl Guest for Export {
-    fn compute() -> String {
+    fn compute(prompt: Option<String>) -> String {
         println!("Running inference");
         let config = config::get_config();
         let engine = engine::Engine::new(&config);
-        let result = engine.inference(&config.prompt);
+        let result = match prompt {
+            Some(prompt) => engine.inference(&prompt),
+            None => engine.inference(&config.prompt.clone()),
+        };
         result
     }
 }

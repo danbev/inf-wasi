@@ -24,7 +24,7 @@ interface engine {
 world inference-world {
   import engine;
   import config;
-  export compute: func() -> string;
+  export compute: func(prompt: option<string>) -> string;
 }
 
 world config-world {
