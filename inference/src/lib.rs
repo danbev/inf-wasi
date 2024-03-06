@@ -17,7 +17,6 @@ impl Guest for Export {
         let config = config::get_config();
         let engine = engine::Engine::new(&config);
         let result = engine.inference(&config.prompt);
-        println!("Result: {:?}", result);
         result
     }
 }

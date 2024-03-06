@@ -49,7 +49,8 @@ impl GuestEngine for EngineImpl {
         let context: inference::GraphExecutionContext =
             inference::init_execution_context(graph).unwrap();
 
-        println!("Context: {}", context);
+        println!("Engine model_path: {}", &self.model_path);
+        println!("Engine prompt: {}", &self.prompt);
 
         // TODO: all these options should be part of the configuration object
         // is some way. This needs to be figured out.
@@ -57,10 +58,9 @@ impl GuestEngine for EngineImpl {
             "stream-stdout": true,
             "enable-log": true,
             "ctx-size": 1024,
-            "n-predict": 512,
+            "n-predict": 80,
             "n-gpu-layers": 25
         });
-        println!("Options: {}", options);
 
         let options_tensor = tensor::Tensor {
             dimensions: vec![1_u32],
@@ -80,9 +80,7 @@ impl GuestEngine for EngineImpl {
 
         inference::compute(context).unwrap();
         let output = inference::get_output(context, 3).unwrap();
-        println!("Output: {:?}", output);
         String::from_utf8(output).unwrap()
-        //"inference result".to_string()
     }
 }
 

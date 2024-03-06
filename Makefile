@@ -153,17 +153,17 @@ build-generator:
 
 
 CONFIG_NAME="sample"
-.PHONY: run-generator
-run-generator:
+.PHONY: generate-config-component
+generate-config-component:
 	@cd generator && env RUST_BACKTRACE=full WASMTIME_BACKTRACE_DETAILS=1 \
 	cargo r -p generator --bin wasm-generator ${BUILD} \
-	-- --name ${CONFIG_NAME} --model-path=./models/llama-2-7b-chat.Q5_K_M.gguf \
+	-- --name ${CONFIG_NAME} --model-path=models/llama-2-7b-chat.Q5_K_M.gguf \
 	--output-dir "working/target" \
 	--modules-dir "../target" \
-	--prompt "What is your name?"
+	--prompt "<s>[INST] <<SYS>> Only respond with the capital's name in normal case (not uppercase) and nothing else. <</SYS>> What is the capital of Sweden?1} [/INST]"
 
-.PHONY: run-generated
-run-generated:
+.PHONY: run-generated-component
+run-generated-component:
 	@env cargo r -p rust-bindings ${BUILD} -- \
 	--component-path "generator/working/target/${CONFIG_NAME}-composed.wasm" \
 	--model-dir "models"
