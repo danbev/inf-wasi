@@ -147,6 +147,31 @@ download-model:
 	curl -LO https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf \
 		--output models/llama-2-7b-chat.Q5_K_M.gguf
 
+### Component Generator target
+build-generator:
+	cargo b -p generator ${BUILD}
+
+
+CONFIG_NAME="sample"
+.PHONY: run-generator
+run-generator:
+	@cd generator && env RUST_BACKTRACE=full WASMTIME_BACKTRACE_DETAILS=1 \
+	cargo r -p generator --bin wasm-generator ${BUILD} \
+	-- --name ${CONFIG_NAME} --model-path=./models/llama-2-7b-chat.Q5_K_M.gguf \
+	--output-dir "working/target" \
+	--modules-dir "../target" \
+	--prompt "What is your name?"
+
+.PHONY: run-generated
+run-generated:
+	@env cargo r -p rust-bindings ${BUILD} -- \
+	--component-path "generator/working/target/${CONFIG_NAME}-composed.wasm" \
+	--model-dir "models"
+
+.PHONY: clean-generator
+clean-generator:
+	${RM} -rf generator/working
+
 #### Testing targets
 .PHONY: rust-all
 rust-all: build component run-rust-bindings
