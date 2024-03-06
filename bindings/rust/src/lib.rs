@@ -36,13 +36,13 @@ impl WasiView for CommandCtx {
     }
 }
 
-pub struct Inference {
+pub struct WasmtimeInference {
     store: Store<CommandCtx>,
     inference_world: InferenceWorld,
 }
 
-impl Inference {
-    pub fn new(component_path: PathBuf, model_path: PathBuf) -> Result<Inference> {
+impl WasmtimeInference {
+    pub fn new(component_path: PathBuf, model_path: PathBuf) -> Result<Self> {
         let mut config = Config::new();
         config.wasm_component_model(true);
         config.async_support(false);
@@ -84,7 +84,7 @@ impl Inference {
         let (inference_world, _instance) =
             InferenceWorld::instantiate(&mut store, &component, &component_linker)
                 .context("Failed to instantiate InferenceWorld")?;
-        Ok(Inference {
+        Ok(Self {
             store,
             inference_world,
         })
