@@ -477,6 +477,7 @@ Result:   Sure! The capital of Sweden is Stockholm.
    to hardware accellerators is possible directly in this case  
 - [] Investigate MultiModal Models (like visual->text, speach->text, text->speach)  
 - [] Investigate lightweight LLM/MML for resource constrained devices
+- [] Investigate adding ml-bom (Machine Learning Bill of Materials)
 
 ### Configuration
 We need to install [WasmEdge](https://wasmedge.org/) which is the wasm runtime
