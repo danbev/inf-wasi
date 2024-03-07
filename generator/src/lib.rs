@@ -15,6 +15,7 @@ macro_rules! workspace_toml {
         format!(
             "
 [workspace]
+resolver = \"2\"
 members = [
     \"{}\",
 ]
