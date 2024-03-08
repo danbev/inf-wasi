@@ -9,7 +9,7 @@ members = [
 ]
 
 [workspace.dependencies]
-wit-bindgen = { version = "0.19.2", default-features = true, features = ['macros'] }
+wit-bindgen = { version = "0.21.0", default-features = true, features = ['macros'] }
 
 [profile.release]
 opt-level = 3

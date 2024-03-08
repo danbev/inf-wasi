@@ -9,9 +9,6 @@ use std::path::PathBuf;
 wit_bindgen::generate!({
     path: "../wit/inf.wit",
     world: "config-world",
-    exports: {
-        "inf:wasi/config": Exports
-    },
 });
 
 struct Exports;
@@ -28,3 +25,5 @@ impl Guest for Exports {
         }
     }
 }
+
+export!(Exports);

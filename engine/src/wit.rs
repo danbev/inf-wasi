@@ -1,3 +1,4 @@
+use crate::wit::exports::inf::wasi::engine::Guest;
 use crate::wit::exports::inf::wasi::engine::GuestEngine;
 use crate::wit::inf::wasi::config_types::Config;
 use serde_json::json;
@@ -9,10 +10,6 @@ use wasi_nn::tensor;
 wit_bindgen::generate!({
     path: "../wit/inf.wit",
     world: "engine-world",
-    exports: {
-        "inf:wasi/engine": Export,
-        "inf:wasi/engine/engine": EngineImpl,
-    },
 });
 
 pub struct EngineImpl {
@@ -20,9 +17,13 @@ pub struct EngineImpl {
     pub prompt: String,
 }
 
+impl Guest for EngineImpl {
+    type Engine = EngineImpl;
+}
+
 impl GuestEngine for EngineImpl {
-    fn new(config: Config) -> EngineImpl {
-        EngineImpl {
+    fn new(config: Config) -> Self {
+        Self {
             model_path: config.model_path,
             prompt: config.prompt,
         }
@@ -84,6 +85,4 @@ impl GuestEngine for EngineImpl {
     }
 }
 
-//struct Export;
-
-//impl Guest for Export {}
+export!(EngineImpl);

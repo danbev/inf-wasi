@@ -4,9 +4,6 @@ use crate::inf::wasi::engine;
 wit_bindgen::generate!({
     path: "../wit/inf.wit",
     world: "inference-world",
-    exports: {
-        world: Export
-    },
 });
 
 struct Export;
@@ -23,3 +20,5 @@ impl Guest for Export {
         result
     }
 }
+
+export!(Export);

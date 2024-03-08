@@ -29,8 +29,11 @@ cargo-expand:
 # generated output (Rust source) from the wit file.
 .PHONY: wit-bindgen-engine
 wit-bindgen-engine:
-	wit-bindgen rust wit/inf.wit -w engine-world --out-dir target \
-	--exports "inf:wasi/engine=Engine,inf:wasi/config=Config,inf:wasi/engine/engine=EngineImpl"
+	wit-bindgen rust wit/inf.wit -w engine-world --out-dir target
+
+
+#--exports "inf:wasi/engine=Engine,inf:wasi/config=Config,inf:wasi/engine/engine=EngineImpl"
+
 
 .PHONY: wit-bindgen-config
 wit-bindgen-config:
