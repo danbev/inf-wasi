@@ -10,7 +10,8 @@ wit-component = "0.201.0"
 anyhow = "1.0.71"
 clap = { version = "4.3.11", features = ["derive"]}
 toml_edit = "0.19.13"
-binaryen = "0.12.1"
+#binaryen = "0.12.1"
+binaryen = { path = "/home/danielbevenius/work/wasm/binaryen-rs" }
 
 [lib]
 name = "static_generator"
