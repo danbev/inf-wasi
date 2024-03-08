@@ -32,22 +32,16 @@ wit-bindgen-engine:
 	wit-bindgen rust wit/inf.wit -w engine-world --out-dir target
 
 
-#--exports "inf:wasi/engine=Engine,inf:wasi/config=Config,inf:wasi/engine/engine=EngineImpl"
-
-
 .PHONY: wit-bindgen-config
 wit-bindgen-config:
-	wit-bindgen rust wit/inf.wit -w config-world --out-dir target \
-	--exports "inf:wasi/config=Config"
+	wit-bindgen rust wit/inf.wit -w config-world --out-dir target
 
 .PHONY: wit-bindgen-inference
 wit-bindgen-inference:
-	wit-bindgen rust wit/inf.wit -w inference-world --out-dir target \
-	--exports "world=Export"
+	wit-bindgen rust wit/inf.wit -w inference-world --out-dir target
 
 wit-bindgen-bindings:
-	wit-bindgen rust wit/inf.wit -w inference-world --out-dir target \
-	--exports "world=Export"
+	wit-bindgen rust wit/inf.wit -w inference-world --out-dir target
 
 .PHONY: print-core-wat
 print-core-wat:
