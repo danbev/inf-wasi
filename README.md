@@ -6,10 +6,10 @@ can be used for Large Language Models (LLM), and Large Multimodal Models (LMM)
 ### Motivation
 There are currently offerings available for running inference locally, like
 [llamafile], [run-llama.sh], [llmstudio], [llamaedge], [ollama], [localllm],
-and possible others as this is a fast moving field. The target user of these
-are users wanting to run llm inference on their local machine for reasons like
- privacy (not sharing their data with an LLM inference service provider), or
- wanting to avoid the cost of a LLM inference provider.
+[Chat with RTX], and possible others as this is a fast moving field. The target
+user of these are users wanting to run llm inference on their local machine for
+reasons like privacy (not sharing their data with an LLM inference service
+provider), or wanting to avoid the cost of a LLM inference provider.
 
 The intention of `inf-wasi` it to cater for developers that want to run
 inference in their applications, and simliar to the above users they also want
@@ -566,3 +566,4 @@ updated the wasi-nn.wit file to include the ggml graph encoding.
 [llava]: https://github.com/danbev/learning-ai/blob/main/notes/llava.md
 [ollama]:  https://ollama.com/
 [localllm]: https://github.com/googlecloudplatform/localllm
+[chat with rtx]: https://www.nvidia.com/en-us/ai-on-rtx/chat-with-rtx-generative-ai/
