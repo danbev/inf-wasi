@@ -157,7 +157,7 @@ generate-config-component:
 	-- --name ${CONFIG_NAME} --model-path=models/llama-2-7b-chat.Q5_K_M.gguf \
 	--output-dir "working/target" \
 	--modules-dir "../target" \
-	--prompt "<s>[INST] <<SYS>> Only respond with the capital's name in normal case (not uppercase) and nothing else. <</SYS>> What is the capital of Sweden?1} [/INST]"
+	--prompt "<s>[INST] <<SYS>> Only respond with the capital's name in normal case (not uppercase) and nothing else. So only respond with a single word. <</SYS>> What is the capital of Sweden?1} [/INST]"
 
 .PHONY: run-generated-component
 run-generated-component:
