@@ -169,23 +169,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9d297deb1925b89f2ccc13d7635fa0714f12c87adce1c75356b39ca9b7178567"
 
 [[package]]
-name = "binaryen"
-version = "0.12.1"
-dependencies = [
- "binaryen-sys",
-]
-
-[[package]]
-name = "binaryen-sys"
-version = "0.12.1"
-dependencies = [
- "cc",
- "cmake",
- "heck 0.3.3",
- "regex",
-]
-
-[[package]]
 name = "bincode"
 version = "1.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -530,7 +513,7 @@ version = "4.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "307bc0538d5f0f83b8248db3087aa92fe504e4691294d0c96c0eabc33f47ba47"
 dependencies = [
- "heck 0.4.1",
+ "heck",
  "proc-macro2",
  "quote",
  "syn 2.0.48",
@@ -550,15 +533,6 @@ name = "clap_lex"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "98cc8fbded0c607b7ba9dd60cd98df59af97e84d24e49c8557331cfc26d301ce"
-
-[[package]]
-name = "cmake"
-version = "0.1.50"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a31c789563b815f77f4250caee12365734369f942439b7defd71e18a48197130"
-dependencies = [
- "cc",
-]
 
 [[package]]
 name = "colorchoice"
@@ -1122,7 +1096,6 @@ name = "generator"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "binaryen",
  "clap 4.5.1",
  "indexmap 2.2.5",
  "toml_edit 0.19.15",
@@ -1233,15 +1206,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "290f1a1d9242c78d09ce40a5e87e7554ee637af1351968159f4952f028f75604"
 dependencies = [
  "ahash",
-]
-
-[[package]]
-name = "heck"
-version = "0.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6d621efb26863f0e9924c6ac577e8275e5e6b77455db64ffa6c65c904e9e132c"
-dependencies = [
- "unicode-segmentation",
 ]
 
 [[package]]
@@ -2585,7 +2549,7 @@ version = "0.25.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "23dc1fa9ac9c169a78ba62f0b841814b7abae11bdd047b9c58f893439e309ea0"
 dependencies = [
- "heck 0.4.1",
+ "heck",
  "proc-macro2",
  "quote",
  "rustversion",
@@ -3200,7 +3164,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "10501f9526fedb9592271a19c34257582b6abcb4636e276ee75cb95aa242ee2a"
 dependencies = [
  "anyhow",
- "heck 0.4.1",
+ "heck",
  "im-rc",
  "indexmap 2.2.5",
  "log",
@@ -3737,7 +3701,7 @@ name = "wasmtime-wit-bindgen"
 version = "19.0.0"
 dependencies = [
  "anyhow",
- "heck 0.4.1",
+ "heck",
  "indexmap 2.2.5",
  "wit-parser 0.200.0",
 ]
@@ -3840,7 +3804,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0446357a5a7af0172848b6eca7b2aa1ab7d90065cd2ab02b633a322e1a52f636"
 dependencies = [
  "anyhow",
- "heck 0.4.1",
+ "heck",
  "proc-macro2",
  "quote",
  "shellexpand",
@@ -3853,7 +3817,7 @@ name = "wiggle-generate"
 version = "19.0.0"
 dependencies = [
  "anyhow",
- "heck 0.4.1",
+ "heck",
  "proc-macro2",
  "quote",
  "shellexpand",
@@ -4161,7 +4125,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a1753606a880b4c7701da8870d3935e550e667261a9b570f709cfefc22136ea5"
 dependencies = [
  "anyhow",
- "heck 0.4.1",
+ "heck",
  "wasm-metadata 0.200.0",
  "wit-bindgen-core 0.19.2",
  "wit-component 0.200.0",
@@ -4174,7 +4138,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a2a4d36bf13b5ef534599d24dae792b1ae2b40fe1248c2754fd3f7343fb2ca70"
 dependencies = [
  "anyhow",
- "heck 0.4.1",
+ "heck",
  "indexmap 2.2.5",
  "wasm-metadata 0.201.0",
  "wit-bindgen-core 0.21.0",
