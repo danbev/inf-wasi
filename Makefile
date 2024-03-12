@@ -152,7 +152,7 @@ build-generator:
 CONFIG_NAME="sample"
 .PHONY: generate-config-component
 generate-config-component:
-	@cd generator && env RUST_BACKTRACE=full WASMTIME_BACKTRACE_DETAILS=1 \
+	cd generator && env RUST_BACKTRACE=full WASMTIME_BACKTRACE_DETAILS=1 \
 	cargo r -p generator --bin wasm-generator ${BUILD} \
 	-- --name ${CONFIG_NAME} --model-path=models/llama-2-7b-chat.Q5_K_M.gguf \
 	--output-dir "working/target" \
