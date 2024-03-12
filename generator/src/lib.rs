@@ -174,7 +174,6 @@ fn add_workspace_member(working_dir_path: &PathBuf, config_name: &str) -> Result
 }
 
 pub fn generate(config: &GenConfig) -> Result<PathBuf> {
-    println!("Generating component: config {:?}", config);
     let config_name = &config.name.clone();
     let working_dir_path = PathBuf::from("working");
     create_workspace(&working_dir_path, config_name)?;
