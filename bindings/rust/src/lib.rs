@@ -15,6 +15,7 @@ use wasmtime_wasi_nn::backend::llama_cpp::LlamaCppBackend;
 use wasmtime_wasi_nn::InMemoryRegistry;
 use wasmtime_wasi_nn::WasiNnCtx;
 
+// Needed so we can use the InferenceWorld::instantiate function.
 bindgen!({
     path: "../../wit",
     world: "inference-world",
