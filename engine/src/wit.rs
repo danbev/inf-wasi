@@ -34,7 +34,6 @@ impl GuestEngine for EngineImpl {
     }
 
     fn inference(&self, prompt: String) -> String {
-        // TODO: this should be part of the configuration.
         let model_path = PathBuf::from(&self.model_path);
 
         let graph_builder: graph::GraphBuilder = model_path.to_str().unwrap().as_bytes().to_vec();
