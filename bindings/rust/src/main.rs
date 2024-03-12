@@ -26,7 +26,7 @@ fn main() -> wasmtime::Result<()> {
     let model_dir = PathBuf::from(matches.value_of("model_dir").unwrap());
 
     let inference = WasmtimeInference::new(component_path, model_dir)?;
-    let result = inference.compute(None);
+    let result = inference.run_inference(None);
 
     println!("Result: {}", result);
     Ok(())

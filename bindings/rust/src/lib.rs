@@ -89,7 +89,7 @@ impl WasmtimeInference {
         })
     }
 
-    pub fn compute(self, prompt: Option<&str>) -> String {
+    pub fn run_inference(self, prompt: Option<&str>) -> String {
         let result = self
             .inference_world
             .call_compute(self.store, prompt)
