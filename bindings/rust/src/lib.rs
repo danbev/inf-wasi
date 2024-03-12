@@ -52,12 +52,10 @@ impl WasmtimeInference {
 
         let component =
             Component::from_file(&engine, &component_path).context("Failed to create Component")?;
-        println!("Loaded component module.");
 
         let model_dir =
             cap_std::fs::Dir::open_ambient_dir(&model_path, cap_std::ambient_authority())
                 .context("Failed to open ambient dir")?;
-        println!("model_dir: {}", &model_path.display());
 
         let wasi = WasiCtxBuilder::new()
             .inherit_stdio()

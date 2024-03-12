@@ -10,7 +10,7 @@ struct Export;
 
 impl Guest for Export {
     fn compute(prompt: Option<String>) -> String {
-        println!("Running inference");
+        println!("Inference Component Running inference");
         let config = config::get_config();
         let engine = engine::Engine::new(&config);
         let result = match prompt {
