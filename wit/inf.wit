@@ -21,12 +21,6 @@ interface engine {
   }
 }
 
-world inference-world {
-  import engine;
-  import config;
-  export compute: func(prompt: option<string>) -> string;
-}
-
 world config-world {
   export config;
   export config-types;
@@ -43,4 +37,10 @@ interface config {
   use config-types.{config};
 
   get-config: func() -> config;
+}
+
+world inference-world {
+  import engine;
+  import config;
+  export compute: func(prompt: option<string>) -> string;
 }
