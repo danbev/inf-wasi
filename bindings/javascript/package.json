@@ -1,0 +1,27 @@
+{
+  "name": "javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@bytecodealliance/jco": "^1.0.3",
+    "@bytecodealliance/preview2-shim": "^0.16.0"
+  },
+  "config": {
+    "wasm_file": "../../generator/working/target/sample-composed.wasm"
+  },
+  "scripts": {
+      "bindings": "npx jco transpile $npm_package_config_wasm_file -o dist --name composed --map wasi:nn/*=./nn.js#* --map inf:wasi/config-types=./config-types.js",
+      "infer": "node app.js",
+      "inspect-wit": "npx jco wit $npm_package_config_wasm_file",
+      "inspect-wasm": "npx jco wit $npm_package_config_wasm_file",
+      "print-wat": "npx jco print $npm_package_config_wasm_file | rustfilt",
+      "clean": "rm -rf node_modules dist"
+  }
+}
