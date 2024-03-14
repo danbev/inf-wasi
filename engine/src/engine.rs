@@ -1,6 +1,6 @@
-use crate::wit::exports::inf::wasi::engine::Guest;
-use crate::wit::exports::inf::wasi::engine::GuestEngine;
-use crate::wit::inf::wasi::config_types::Config;
+use crate::engine::exports::inf::wasi::engine::Guest;
+use crate::engine::exports::inf::wasi::engine::GuestEngine;
+use crate::engine::inf::wasi::config_types::Config;
 use serde_json::json;
 use std::path::PathBuf;
 use wasi_nn::graph;

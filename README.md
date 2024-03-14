@@ -17,6 +17,10 @@ and an inference component.
 ```
 We have defined an interface for the engine and inference in
 [inf.wit](wit/inf.wit).
+
+A/the engine is implemented in [engine.rs](engine/src/engine.rs) and the
+inferenece component is implemented in [inference.rs](inference/src/lib.rs).
+
 These components are "pre-baked" and are component modules that can be used
 to compose a user specific inference component. 
 
