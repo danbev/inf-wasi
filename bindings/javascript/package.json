@@ -16,7 +16,7 @@
     "wasm_file": "../../generator/working/target/sample-composed.wasm"
   },
   "scripts": {
-      "bindings": "npx jco transpile $npm_package_config_wasm_file -o dist --name composed --map wasi:nn/*=./nn.js#* --map inf:wasi/config-types=./config-types.js",
+      "bindings": "npx jco transpile $npm_package_config_wasm_file -o dist --name composed --map inf:wasi/config-types=./config-types.js",
       "infer": "node app.js",
       "inspect-wit": "npx jco wit $npm_package_config_wasm_file",
       "inspect-wasm": "npx jco wit $npm_package_config_wasm_file",
