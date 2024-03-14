@@ -5,7 +5,7 @@ interface using WebAssembly interface types (WIT) engine, a configuration,
 and an inference component.
 
 ```
- Engines components         Inference component
+ Engines components        Inference component
  +------------+            +------------+
  | llama.cpp  |            | engine     |
  +------------+            | config     |
@@ -29,13 +29,15 @@ The idea is that each user will have different configuration so the idea is to
 combine the configuration with the a chosen engine above to create an inference
 component for that user.
 ```
+  Engine component
   +------------+ 
-  | llama.cpp  |-----+
+  | llama.cpp  |-----+     Inference component
   +------------+     |     +-------------+
                      +---->| MyInference | 
   +------------+     |     +-------------+
   | MyConfig   |-----+
   +------------+
+  Config component
 ```
 Actually having separate engine components might be unnecessary as this could
 also be done via the configuration and select the backend to use from that but
