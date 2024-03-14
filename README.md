@@ -14,6 +14,7 @@ and an inference component.
  | OpenVINO   |
  +------------+
  ...
+ Other backends
 ```
 We have defined an interface for the engine and inference in
 [inf.wit](wit/inf.wit).
@@ -42,10 +43,14 @@ a engine component is needed for the composition nonetheless.
 
 We can then generate bindings for the composed module for different languages:
 ```
-  +------------+  ----------> JavaScript using jco            
-  | MyInference|  ----------> Python using wasmtime-python
-  +------------+  ----------> Rust using wasmtime-component
+  +------------+  ----------> Rust
+  | MyInference|  ----------> JavaScript
+  +------------+  ----------> Python
 ```
+Example of [Rust](bindings/rust), and [JavaScript](bindings/javascript) are
+available but the JavaScript bindings need a shim for `wasi:nn` which is not
+available yet. The Python bindings are not working yet.
+
 To show this in action we can perform the following steps:
 #### 1. Build the engine and inference components
 ```console
