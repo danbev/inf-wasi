@@ -154,9 +154,10 @@ CONFIG_NAME="sample"
 generate-config-component:
 	cd generator && env RUST_BACKTRACE=full WASMTIME_BACKTRACE_DETAILS=1 \
 	cargo r -p generator --bin wasm-generator ${BUILD} \
-	-- --name ${CONFIG_NAME} --model-path=models/llama-2-7b-chat.Q5_K_M.gguf \
+	-- --name ${CONFIG_NAME} \
 	--output-dir "working/target" \
 	--modules-dir "../target" \
+	--model-path=models/llama-2-7b-chat.Q5_K_M.gguf \
 	--prompt "<s>[INST] <<SYS>> Only respond with the capital's name in normal case (not uppercase) and nothing else. So only respond with a single word. <</SYS>> What is the capital of Sweden? [/INST]"
 
 .PHONY: run-generated-component
