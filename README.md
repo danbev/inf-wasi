@@ -5,7 +5,7 @@ interface using WebAssembly interface types (WIT) engine, a configuration,
 and an inference component.
 
 ```
-   Engines components      Inference component
+ Engines components         Inference component
  +------------+            +------------+
  | llama.cpp  |            | engine     |
  +------------+            | config     |
