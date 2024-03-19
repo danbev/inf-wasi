@@ -4,7 +4,6 @@ use crate::engine::inf::wasi::config_types::Config;
 use serde_json::json;
 use std::path::PathBuf;
 use wasi_nn::graph;
-use wasi_nn::inference;
 use wasi_nn::tensor;
 
 wit_bindgen::generate!({
@@ -46,8 +45,7 @@ impl GuestEngine for EngineImpl {
         )
         .unwrap();
 
-        let context: inference::GraphExecutionContext =
-            inference::init_execution_context(graph).unwrap();
+        let context = wasi_nn::inference::init_execution_context(graph).unwrap();
 
         println!("Engine model_path: {}", &self.model_path);
         println!("Engine prompt: {}", &self.prompt);
@@ -62,13 +60,14 @@ impl GuestEngine for EngineImpl {
             "n-gpu-layers": 25
         });
 
-        let options_tensor = tensor::Tensor {
+        let options_tensor = wasi_nn::tensor::Tensor {
             dimensions: vec![1_u32],
             tensor_type: tensor::TensorType::U8,
             data: options.to_string().as_bytes().to_vec(),
         };
 
-        inference::set_input(context, 1, &options_tensor).unwrap();
+        wasi_nn::inference::set_input(context, 0, &options_tensor).unwrap();
+        //context.set_input("options", options_tensor).unwrap();
 
         let prompt = &self.prompt;
         let prompt_tensor = tensor::Tensor {
@@ -76,10 +75,13 @@ impl GuestEngine for EngineImpl {
             tensor_type: tensor::TensorType::U8,
             data: prompt.as_bytes().to_vec(),
         };
-        inference::set_input(context, 2, &prompt_tensor).unwrap();
+        //context.set_input("prompt", prompt_tensor).unwrap();
+        wasi_nn::inference::set_input(context, 1, &prompt_tensor).unwrap();
 
-        inference::compute(context).unwrap();
-        let output = inference::get_output(context, 3).unwrap();
+        //context.compute().unwrap();
+        wasi_nn::inference::compute(context).unwrap();
+        let output = wasi_nn::inference::get_output(context, 0).unwrap();
+        //let output = context.get_output("outut").unwrap();
         String::from_utf8(output).unwrap()
     }
 }
