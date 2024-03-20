@@ -39,7 +39,7 @@ wit-bindgen-engine:
 
 .PHONY: wit-bindgen-config
 wit-bindgen-config:
-	wit-bindgen rust wit/inf.wit -w config-world --out-dir target
+	wit-bindgen rust wit -w config-world --out-dir target
 
 .PHONY: wit-bindgen-inference
 wit-bindgen-inference:
