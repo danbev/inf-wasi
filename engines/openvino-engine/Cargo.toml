@@ -1,0 +1,11 @@
+[package]
+name = "openvino-engine"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+wit-bindgen = { workspace = true }
+wasi-nn = { path = "/home/danielbevenius/work/wasm/wasi-nn-rs/rust" }
+
+[lib]
+crate-type = ["cdylib"]
