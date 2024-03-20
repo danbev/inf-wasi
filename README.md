@@ -42,6 +42,9 @@ component for that user.
 Actually having separate engine components might be unnecessary as this could
 also be done via the configuration and select the backend to use from that but
 a engine component is needed for the composition nonetheless.
+After looking into this a little more it might be nice to have separate engines.
+For example, for OpenVINO there will be two files to be loaded, one which
+contains the model and another that contains the weights.
 
 We can then generate bindings for the composed module for different languages:
 ```
@@ -56,8 +59,8 @@ available yet. The Python bindings are not working yet.
 To show this in action we can perform the following steps:
 #### 1. Build the engine and inference components
 ```console
-$ make build-engine build-inference
-$ make engine-component inference-component
+$ make build-llama-cpp-engine build-inference
+$ make llama-cpp-engine-component inference-component
 ```
 #### 2. Generate the configuration component
 ```console
@@ -211,8 +214,8 @@ two components into a single component.
 
 So, lets first build the engine and inference components:
 ```console
-$ make build-engine build-inference
-$ make engine-component inference-component
+$ make build-llama-cpp-engine build-inference
+$ make llama-cpp-engine-component inference-component
 ```
 
 So, we now have two components that can be composed into a single component and

@@ -5,8 +5,8 @@ else
         BUILD = "--$(BUILD_TYPE)"
 endif
 
-engine_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/engine.wasm
-engine_component=target/engine-component.wasm
+llama_cpp_engine_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/llama_cpp_engine.wasm
+llama_cpp_engine_component=target/llama-cpp-engine-component.wasm
 
 inference_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/inference.wasm
 inference_component=target/inference-component.wasm
@@ -15,8 +15,8 @@ config_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/config.wasm
 config_component=target/config-component.wasm
 
 ### Build core wasm module and utitility targets
-build-engine:
-	cargo b -p engine ${BUILD} --target wasm32-wasi
+build-llama-cpp-engine:
+	cargo b -p llama-cpp-engine ${BUILD} --target wasm32-wasi
 
 show-packages:
 	@cargo metadata --format-version=1 --no-deps | jq -r '.packages[].name'
@@ -45,7 +45,7 @@ wit-bindgen-bindings:
 
 .PHONY: print-core-wat
 print-core-wat:
-	wasm-tools print ${engine_core_wasm} | rustfilt
+	wasm-tools print ${llama_cpp_engine_core_wasm} | rustfilt
 
 ### inference component targets
 build-inference:
@@ -55,12 +55,12 @@ build-config:
 	cargo b -p config ${BUILD} --target wasm32-wasi
 
 ### WebAssembly Component Model targets
-.PHONY: engine-component
-engine-component:
-	wasm-tools component new ${engine_core_wasm} \
+.PHONY: llama-cpp-engine-component
+llama-cpp-engine-component:
+	wasm-tools component new ${llama_cpp_engine_core_wasm} \
 	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
-	-o ${engine_component}
-	@wasm-tools strip $(engine_component) -o $(engine_component)
+	-o ${llama_cpp_engine_component}
+	@wasm-tools strip $(llama_cpp_engine_component) -o $(llama_cpp_engine_component)
 
 .PHONY: inference-component
 inference-component:
@@ -93,7 +93,7 @@ compose:
 
 .PHONY: print-engine-component-wit
 print-engine-component-wit:
-	wasm-tools component wit ${engine_component}
+	wasm-tools component wit ${llama_cpp_engine_component}
 
 .PHONY: print-inference-component-wit
 print-inference-component-wit:
@@ -101,11 +101,11 @@ print-inference-component-wit:
 
 .PHONY: print-engine-component-wat
 print-engine-component-wat:
-	wasm-tools print ${engine_component}
+	wasm-tools print ${llama_cpp_engine_component}
 
 .PHONY: objdump-component
 objdump-component:
-	@wasm-tools objdump $(engine_component)
+	@wasm-tools objdump $(llama_cpp_engine_component)
 
 ### Rust bindings and runtime targets
 rust-bindings:
