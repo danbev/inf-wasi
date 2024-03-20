@@ -2,7 +2,7 @@ use crate::inf::wasi::config;
 use crate::inf::wasi::engine;
 
 wit_bindgen::generate!({
-    path: "../wit/inf.wit",
+    path: "../wit",
     world: "inference-world",
 });
 

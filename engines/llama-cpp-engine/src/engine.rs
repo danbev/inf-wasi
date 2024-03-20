@@ -7,7 +7,7 @@ use wasi_nn::graph;
 use wasi_nn::tensor;
 
 wit_bindgen::generate!({
-    path: "../../wit/inf.wit",
+    path: "../../wit",
     world: "engine-world",
 });
 

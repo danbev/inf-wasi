@@ -7,7 +7,7 @@ use crate::exports::inf::wasi::config_types::Config;
 use std::path::PathBuf;
 
 wit_bindgen::generate!({
-    path: "../wit/inf.wit",
+    path: "../wit",
     world: "config-world",
 });
 

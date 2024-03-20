@@ -8,6 +8,9 @@ endif
 llama_cpp_engine_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/llama_cpp_engine.wasm
 llama_cpp_engine_component=target/llama-cpp-engine-component.wasm
 
+openvino_engine_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/openvino_engine.wasm
+openvino_engine_component=target/openvino-engine-component.wasm
+
 inference_core_wasm=target/wasm32-wasi/${BUILD_TYPE}/inference.wasm
 inference_component=target/inference-component.wasm
 
@@ -17,6 +20,9 @@ config_component=target/config-component.wasm
 ### Build core wasm module and utitility targets
 build-llama-cpp-engine:
 	cargo b -p llama-cpp-engine ${BUILD} --target wasm32-wasi
+
+build-openvino-engine:
+	cargo b -p openvino-engine ${BUILD} --target wasm32-wasi
 
 show-packages:
 	@cargo metadata --format-version=1 --no-deps | jq -r '.packages[].name'
@@ -30,7 +36,6 @@ cargo-expand:
 .PHONY: wit-bindgen-engine
 wit-bindgen-engine:
 	wit-bindgen rust wit/inf.wit -w engine-world --out-dir target
-
 
 .PHONY: wit-bindgen-config
 wit-bindgen-config:
@@ -61,6 +66,13 @@ llama-cpp-engine-component:
 	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
 	-o ${llama_cpp_engine_component}
 	@wasm-tools strip $(llama_cpp_engine_component) -o $(llama_cpp_engine_component)
+
+.PHONY: openvino-engine-component
+openvino-engine-component:
+	wasm-tools component new ${openvino_engine_core_wasm} \
+	--adapt wit-lib/wasi_snapshot_preview1.reactor.wasm \
+	-o ${openvino_engine_component}
+	@wasm-tools strip $(openvino_engine_component) -o $(openvino_engine_component)
 
 .PHONY: inference-component
 inference-component:
@@ -152,6 +164,7 @@ build-generator:
 CONFIG_NAME="sample"
 .PHONY: generate-config-component
 generate-config-component:
+	cp ${llama_cpp_engine_component} target/engine-component.wasm
 	cd generator && env RUST_BACKTRACE=full WASMTIME_BACKTRACE_DETAILS=1 \
 	cargo r -p generator --bin wasm-generator ${BUILD} \
 	-- --name ${CONFIG_NAME} \

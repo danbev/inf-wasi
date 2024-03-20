@@ -1,0 +1,14 @@
+package inf:wasi;
+
+interface config-types {
+  record config {
+    model-path: string,
+    prompt: string,
+  }
+}
+
+interface config {
+  use config-types.{config};
+
+  get-config: func() -> config;
+}

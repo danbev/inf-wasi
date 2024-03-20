@@ -2,6 +2,7 @@
 resolver = "2"
 members = [
     "engines/llama-cpp-engine",
+    "engines/openvino-engine",
     "inference",
     "bindings/rust",
     "config",

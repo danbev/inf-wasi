@@ -26,19 +26,6 @@ world config-world {
   export config-types;
 }
 
-interface config-types {
-  record config {
-    model-path: string,
-    prompt: string,
-  }
-}
-
-interface config {
-  use config-types.{config};
-
-  get-config: func() -> config;
-}
-
 world inference-world {
   import engine;
   import config;
