@@ -1,8 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
-    "engines/llama-cpp-engine",
-    "engines/openvino-engine",
+    "engine",
     "inference",
     "bindings/rust",
     "config",

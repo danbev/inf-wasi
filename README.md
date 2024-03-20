@@ -41,10 +41,10 @@ component for that user.
 ```
 Actually having separate engine components might be unnecessary as this could
 also be done via the configuration and select the backend to use from that but
-a engine component is needed for the composition nonetheless.
-After looking into this a little more it might be nice to have separate engines.
-For example, for OpenVINO there will be two files to be loaded, one which
-contains the model and another that contains the weights.
+a engine component is needed for the composition nonetheless. After going back
+and forth on this I think it is better to have I single engine component and
+then have a configuration that is specific to each perhaps. But having multiple
+modules might lead to maintainability issues.
 
 We can then generate bindings for the composed module for different languages:
 ```

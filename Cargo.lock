@@ -873,6 +873,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "engine"
+version = "0.1.0"
+dependencies = [
+ "serde_json",
+ "wasi-nn",
+ "wit-bindgen 0.21.0",
+]
+
+[[package]]
 name = "env_logger"
 version = "0.10.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1567,15 +1576,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "01cda141df6706de531b6c46c3a33ecca755538219bd484262fa09410c13539c"
 
 [[package]]
-name = "llama-cpp-engine"
-version = "0.1.0"
-dependencies = [
- "serde_json",
- "wasi-nn",
- "wit-bindgen 0.21.0",
-]
-
-[[package]]
 name = "llm-chain"
 version = "0.13.0"
 dependencies = [
@@ -1856,14 +1856,6 @@ dependencies = [
  "openvino-finder",
  "openvino-sys",
  "thiserror",
-]
-
-[[package]]
-name = "openvino-engine"
-version = "0.1.0"
-dependencies = [
- "wasi-nn",
- "wit-bindgen 0.21.0",
 ]
 
 [[package]]
