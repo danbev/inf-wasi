@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
-    "engine",
+    "engines/engine",
     "inference",
     "bindings/rust",
     "config",
