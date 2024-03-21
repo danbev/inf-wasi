@@ -274,7 +274,13 @@ Result:   Sure! The capital of Sweden is Stockholm.
 - [] Investigate lightweight LLM/MML for resource constrained devices
 - [] Investigate adding ml-bom (Machine Learning Bill of Materials)
 
-### Configuration
+### Configuration for WasmEdge example
+This is a standalone example that used WasmEdge and was used initially as a
+working example before the WebAssembly Component Model was used. I'll keep it
+around for now as it might be useful for testing and perhaps later same
+component generated could be used in either WasmEdge or Wasmtime (or any other
+wasm runtime that supports wasi-nn and the component model).
+
 We need to install [WasmEdge](https://wasmedge.org/) which is the wasm runtime
 that will be used:
 ```console
