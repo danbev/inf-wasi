@@ -147,7 +147,6 @@ download-model:
 build-generator:
 	cargo b -p generator ${BUILD}
 
-
 CONFIG_NAME="sample"
 .PHONY: generate-config-component
 generate-config-component:
@@ -164,6 +163,23 @@ run-generated-component:
 	@env cargo r -p rust-bindings ${BUILD} -- \
 	--component-path "generator/working/target/${CONFIG_NAME}-composed.wasm" \
 	--model-dir "models"
+
+.PHONY: start-generator-server
+start-generator-server:
+	cd generator/api && cargo r ${BUILD} -- \
+	--modules-dir "../../target" \
+	--work-dir="../working" \
+	--output-dir "../working/target" \
+	--build-type=${BUILD_TYPE}
+
+.PHONY: generate-config-web
+generate-config-web:
+	curl -X POST http://localhost:8080/config \
+	-H "Content-Type: application/json" \
+	-d '{ "name": "test", "model_path": "something", "prompt": "What is the capital of Sweden?" }' \
+	--output test-composed.wasm
+	wasm-tools validate -v test-composed.wasm
+
 
 .PHONY: clean-generator
 clean-generator:

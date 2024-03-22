@@ -100,7 +100,7 @@ impl Guest for Exports {{
     };
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum BuildType {
     Debug,
     Release,
@@ -115,23 +115,43 @@ impl BuildType {
     }
 }
 
+impl From<&str> for BuildType {
+    fn from(s: &str) -> Self {
+        match s {
+            "release" => BuildType::Release,
+            _ => BuildType::Debug,
+        }
+    }
+}
+
+impl From<String> for BuildType {
+    fn from(s: String) -> Self {
+        match s.as_str() {
+            "release" => BuildType::Release,
+            _ => BuildType::Debug,
+        }
+    }
+}
+
 #[derive(Debug)]
 pub struct GenConfig {
     pub name: String,
     pub model_path: PathBuf,
     pub prompt: String,
+    pub work_dir: PathBuf,
     pub build_type: BuildType,
     pub modules_dir: PathBuf,
     pub output_dir: PathBuf,
 }
 
 impl GenConfig {
-    pub fn new(name: &str, model_path: PathBuf, prompt: &str) -> Self {
+    pub fn new(name: &str, model_path: PathBuf, prompt: &str, work_dir: PathBuf) -> Self {
         Self {
             name: name.to_string(),
             model_path,
             prompt: prompt.to_string(),
             build_type: BuildType::Debug,
+            work_dir,
             modules_dir: PathBuf::from("modules"),
             output_dir: PathBuf::from("target"),
         }
@@ -175,9 +195,11 @@ fn add_workspace_member(working_dir_path: &PathBuf, config_name: &str) -> Result
 
 pub fn generate(config: &GenConfig) -> Result<PathBuf> {
     let config_name = &config.name.clone();
-    let working_dir_path = PathBuf::from("working");
+    let working_dir_path = config.work_dir.clone();
     create_workspace(&working_dir_path, config_name)?;
     add_workspace_member(&working_dir_path, config_name)?;
+
+    let working_dir_path = working_dir_path.canonicalize().unwrap();
 
     let working_dir = working_dir_path.display();
     let config_src_dir = format!("{}/{}/src", working_dir, &config_name);
@@ -230,13 +252,15 @@ pub fn generate(config: &GenConfig) -> Result<PathBuf> {
 
     // Make a component out for the core webassembly module that we compiled
     // above.
-    let config_module = fs::read(format!(
+    let config_module_path = format!(
         "{}/target/wasm32-unknown-unknown/{}/{}.wasm",
         working_dir,
         config.build_type.as_string(),
-        config_name,
-    ))
-    .unwrap();
+        config_name
+    );
+    println!("config_module_path: {:?}", config_module_path);
+
+    let config_module = fs::read(config_module_path).unwrap();
 
     let component_encoder = ComponentEncoder::default()
         .module(config_module.as_slice())

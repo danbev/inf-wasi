@@ -12,9 +12,11 @@ clap = { version = "4.3.11", features = ["derive"]}
 toml_edit = "0.19.13"
 
 [lib]
-name = "static_generator"
+name = "generator"
 path = "src/lib.rs"
 
 [[bin]]
 name = "wasm-generator"
 path = "src/main.rs"
+
+[workspace]

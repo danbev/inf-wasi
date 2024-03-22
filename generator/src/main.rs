@@ -1,5 +1,5 @@
 use clap::Parser;
-use static_generator::{self, BuildType, GenConfig};
+use generator::{self, BuildType, GenConfig};
 use std::path::PathBuf;
 
 #[derive(clap::Parser, Debug)]
@@ -17,6 +17,14 @@ pub struct Args {
 
     #[arg(short = 'p', long = "prompt", value_name = "String")]
     pub(crate) prompt: String,
+
+    #[arg(
+        short = 'w',
+        long = "work-dir",
+        value_name = "DIR",
+        default_value = "working"
+    )]
+    pub(crate) work_dir: PathBuf,
 
     #[arg(
         short = 'm',
@@ -45,11 +53,12 @@ fn main() {
         name: config_name,
         model_path,
         prompt,
+        work_dir: args.work_dir,
         build_type: BuildType::Debug,
         modules_dir: args.modules_dir,
         output_dir: args.output_dir,
     };
-    match static_generator::generate(&config) {
+    match generator::generate(&config) {
         Ok(composed_path) => println!("Composed into webassembly component:\n{composed_path:?}"),
         Err(e) => eprintln!("Error while generating: {}", e),
     }

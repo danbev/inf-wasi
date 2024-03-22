@@ -5,7 +5,6 @@ members = [
     "inference",
     "bindings/rust",
     "config",
-    "generator",
 ]
 
 [workspace.dependencies]
