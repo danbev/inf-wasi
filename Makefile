@@ -154,6 +154,7 @@ generate-component:
 	cargo r ${BUILD} \
 	-- --name ${CONFIG_NAME} \
 	--output-dir "../../" \
+	--work-dir "../working" \
 	--modules-dir "../../target" \
 	--model-path=models/llama-2-7b-chat.Q5_K_M.gguf \
 	--prompt "<s>[INST] <<SYS>> Only respond with the capital's name in normal case (not uppercase) and nothing else. So only respond with a single word. <</SYS>> What is the capital of Sweden? [/INST]"
