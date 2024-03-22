@@ -63,26 +63,33 @@ $ make build-llama-cpp-engine build-inference
 $ make llama-cpp-engine-component inference-component
 ```
 #### 2. Generate the configuration component
+First we start the server that will host the Rest API:
 ```console
-$ make generate-config-component 
-cd generator && env RUST_BACKTRACE=full WASMTIME_BACKTRACE_DETAILS=1 \
-cargo r -p generator --bin wasm-generator "--release" \
--- --name "sample" --model-path=models/llama-2-7b-chat.Q5_K_M.gguf \
---output-dir "working/target" \
---modules-dir "../target" \
---prompt "<s>[INST] <<SYS>> Only respond with the capital's name in normal case (not uppercase) and nothing else. So only respond with a single word. <</SYS>> What is the capital of Sweden? [/INST]"
-   Compiling generator v0.1.0 (/home/danielbevenius/work/ai/inf-wasi/generator)
-    Finished release [optimized] target(s) in 1.59s
-     Running `/home/danielbevenius/work/ai/inf-wasi/target/release/wasm-generator --name sample --model-path=models/llama-2-7b-chat.Q5_K_M.gguf --output-dir working/target --modules-dir ../target --prompt '<s>[INST] <<SYS>> Only respond with the capital'\''s name in normal case (not uppercase) and nothing else. So only respond with a single word. <</SYS>> What is the capital of Sweden? [/INST]'`
-Created workspace 'working'
-Building workspace...done
-Created webassembly component: "working/target/sample-config-component.wasm"
-Composed into webassembly component:
-"/home/danielbevenius/work/ai/inf-wasi/generator/working/target/sample-composed.wasm"
+$ make start-generator-server 
+cd generator/api && cargo r "--release" -- \
+--modules-dir "../../target" \
+--work-dir="../working" \
+--output-dir "../working/target" \
+--build-type=release
+   Compiling generator-api v0.1.0 (/home/danielbevenius/work/ai/inf-wasi/generator/api)
+    Finished release [optimized] target(s) in 3.35s
+     Running `target/release/generator-api --modules-dir ../../target --work-dir=../working --output-dir ../working/target --build-type=release`
+Starting server at http://127.0.0.1:8080
 ```
-Notice that this command line tool `wasm-generator` is actually standalone from
-the project and could be run on a server where it has access to the engine and
-inference components but nothing else.
+And then we can use curl to compose using the following command:
+```console
+$ make generate-component-web 
+curl -X POST http://localhost:8080/generate \
+-H "Content-Type: application/json" \
+-d '{ "config_name": "test", "model_path": "something", "prompt": "What is the capital of Sweden?" }' \
+--output test-composed.wasm
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 1884k  100 1884k  100    96  11.3M    591 --:--:-- --:--:-- --:--:-- 11.3M
+wasm-tools validate -v test-composed.wasm
+[2024-03-22T11:53:54Z INFO ] module structure validated in 1.326913ms
+[2024-03-22T11:53:54Z INFO ] functions validated in 894.136µs
+```
 
 #### 3. Use the generated component in Rust
 The Rust [bindings](bindings/rust/src/lib.rs) uses wasmtime to load the
@@ -94,7 +101,7 @@ $ make run-generated-component
    Compiling wasmtime-wasi v19.0.0 (/home/danielbevenius/work/wasm/wasmtime/crates/wasi)
    Compiling rust-bindings v0.1.0 (/home/danielbevenius/work/ai/inf-wasi/bindings/rust)
     Finished release [optimized] target(s) in 31.70s
-     Running `target/release/rust-bindings --component-path generator/working/target/sample-composed.wasm --model-dir models`
+     Running `target/release/rust-bindings --component-path test-composed.wasm --model-dir models`
 Inference Component Running inference
 LlamaCppBackend: model_path: "models/llama-2-7b-chat.Q5_K_M.gguf"
 llama_model_loader: loaded meta data with 19 key-value pairs and 291 tensors from models/llama-2-7b-chat.Q5_K_M.gguf (version GGUF V2)

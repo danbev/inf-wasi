@@ -6,21 +6,21 @@ use serde::Deserialize;
 use std::path::PathBuf;
 
 #[derive(Debug, Clone)]
-struct MyAppData {
+struct GenAppData {
     work_dir: PathBuf,
     modules_dir: PathBuf,
     output_dir: PathBuf,
     build_type: BuildType,
 }
 
-impl MyAppData {
+impl GenAppData {
     fn new(
         work_dir: PathBuf,
         modules_dir: PathBuf,
         output_dir: PathBuf,
         build_type: BuildType,
     ) -> Self {
-        MyAppData {
+        GenAppData {
             work_dir,
             modules_dir,
             output_dir,
@@ -71,17 +71,18 @@ pub struct Args {
 
 #[derive(Deserialize, Debug)]
 struct InputData {
-    name: String,
+    config_name: String,
     model_path: String,
     prompt: String,
 }
 
-#[post("/config")]
-async fn generate_wasm(data: web::Data<MyAppData>, config: web::Json<InputData>) -> impl Responder {
-    println!("Config: {:?}", config);
-
+#[post("/generate")]
+async fn generate_wasm(
+    data: web::Data<GenAppData>,
+    config: web::Json<InputData>,
+) -> impl Responder {
     let gen_config = GenConfig {
-        name: config.name.clone(),
+        name: config.config_name.clone(),
         model_path: config.model_path.clone().into(),
         prompt: config.prompt.clone(),
         build_type: data.build_type,
@@ -104,14 +105,12 @@ async fn generate_wasm(data: web::Data<MyAppData>, config: web::Json<InputData>)
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let args = Args::parse();
-    let config_app_data = web::Data::new(MyAppData::new(
+    let config_app_data = web::Data::new(GenAppData::new(
         args.work_dir,
         args.modules_dir,
         args.output_dir,
         args.build_type.into(),
     ));
-    println!("Config: {:?}", config_app_data);
-
     println!("Starting server at http://127.0.0.1:8080");
     HttpServer::new(move || {
         App::new()

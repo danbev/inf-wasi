@@ -148,8 +148,8 @@ build-generator:
 	cargo b -p generator ${BUILD}
 
 CONFIG_NAME="sample"
-.PHONY: generate-config-component
-generate-config-component:
+.PHONY: generate-component
+generate-component:
 	cd generator && env RUST_BACKTRACE=full WASMTIME_BACKTRACE_DETAILS=1 \
 	cargo r -p generator --bin wasm-generator ${BUILD} \
 	-- --name ${CONFIG_NAME} \
@@ -161,7 +161,7 @@ generate-config-component:
 .PHONY: run-generated-component
 run-generated-component:
 	@env cargo r -p rust-bindings ${BUILD} -- \
-	--component-path "generator/working/target/${CONFIG_NAME}-composed.wasm" \
+	--component-path "test-composed.wasm" \
 	--model-dir "models"
 
 .PHONY: start-generator-server
@@ -172,11 +172,11 @@ start-generator-server:
 	--output-dir "../working/target" \
 	--build-type=${BUILD_TYPE}
 
-.PHONY: generate-config-web
-generate-config-web:
-	curl -X POST http://localhost:8080/config \
+.PHONY: generate-component-web
+generate-component-web:
+	curl -X POST http://localhost:8080/generate \
 	-H "Content-Type: application/json" \
-	-d '{ "name": "test", "model_path": "something", "prompt": "What is the capital of Sweden?" }' \
+	-d '{ "config_name": "test", "model_path": "models/llama-2-7b-chat.Q5_K_M.gguf", "prompt": "What is the capital of Sweden?" }' \
 	--output test-composed.wasm
 	wasm-tools validate -v test-composed.wasm
 
