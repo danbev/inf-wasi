@@ -147,7 +147,7 @@ download-model:
 build-generator:
 	cargo b -p generator ${BUILD}
 
-CONFIG_NAME="test"
+CONFIG_NAME=test
 .PHONY: generate-component
 generate-component:
 	cd generator/cli && env RUST_BACKTRACE=full WASMTIME_BACKTRACE_DETAILS=1 \
@@ -178,9 +178,9 @@ start-generator-server:
 generate-component-web:
 	curl -X POST http://localhost:8080/generate \
 	-H "Content-Type: application/json" \
-	-d '{ "config_name": ${CONFIG_NAME}, "model_path": "models/llama-2-7b-chat.Q5_K_M.gguf", "prompt": "What is the capital of Sweden?" }' \
+	--data-binary @config.json \
 	--output test-composed.wasm
-	wasm-tools validate -v ${CONFIG_NAME}-composed.wasm
+	wasm-tools validate -v "${CONFIG_NAME}-composed.wasm"
 
 
 .PHONY: clean-generator
