@@ -8,15 +8,6 @@ indexmap = { version = "2.2.5", features = ["serde"] }
 wasm-compose = "0.201.0"
 wit-component = "0.201.0"
 anyhow = "1.0.71"
-clap = { version = "4.3.11", features = ["derive"]}
 toml_edit = "0.19.13"
-
-[lib]
-name = "generator"
-path = "src/lib.rs"
-
-[[bin]]
-name = "wasm-generator"
-path = "src/main.rs"
 
 [workspace]

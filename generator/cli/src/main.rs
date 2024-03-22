@@ -12,7 +12,7 @@ pub struct Args {
     #[arg(short = 'n', long = "name", value_name = "String")]
     pub(crate) name: String,
 
-    #[arg(short = 'm', long = "model-path", value_name = "FILE")]
+    #[arg(long = "model-path", value_name = "FILE")]
     pub(crate) model_path: PathBuf,
 
     #[arg(short = 'p', long = "prompt", value_name = "String")]

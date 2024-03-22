@@ -1,0 +1,11 @@
+[package]
+name = "generator-cli"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.71"
+clap = { version = "4.3.11", features = ["derive"]}
+generator = { path = ".." }
+
+[workspace]
