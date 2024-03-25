@@ -196,7 +196,11 @@ fn add_workspace_member(working_dir_path: &PathBuf, config_name: &str) -> Result
 pub fn generate(config: &GenConfig) -> Result<PathBuf> {
     let config_name = &config.name.clone();
     let working_dir_path = config.work_dir.clone();
-    create_workspace(&working_dir_path, config_name)?;
+    let workspace_exists = working_dir_path.exists();
+    if !workspace_exists {
+        create_workspace(&working_dir_path, config_name)?;
+        println!("Created workspace '{:?}'", working_dir_path);
+    }
     add_workspace_member(&working_dir_path, config_name)?;
 
     let working_dir_path = working_dir_path.canonicalize().unwrap();
@@ -213,8 +217,9 @@ pub fn generate(config: &GenConfig) -> Result<PathBuf> {
             &config.prompt
         ),
     );
-    println!("Created workspace '{}'", working_dir);
-    print!("Building workspace...");
+    if !workspace_exists {
+        print!("Building workspace...");
+    }
     let _ = std::io::stdout().flush();
     let output = match config.build_type {
         BuildType::Release => Command::new("cargo")
@@ -248,7 +253,9 @@ pub fn generate(config: &GenConfig) -> Result<PathBuf> {
             String::from_utf8_lossy(&output.stderr)
         ));
     }
-    println!("done");
+    if !workspace_exists {
+        println!("done");
+    }
 
     // Make a component out for the core webassembly module that we compiled
     // above.
@@ -258,7 +265,6 @@ pub fn generate(config: &GenConfig) -> Result<PathBuf> {
         config.build_type.as_string(),
         config_name
     );
-    println!("config_module_path: {:?}", config_module_path);
 
     let config_module = fs::read(config_module_path).unwrap();
 
