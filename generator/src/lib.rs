@@ -219,8 +219,8 @@ pub fn generate(config: &GenConfig) -> Result<PathBuf> {
     );
     if !workspace_exists {
         print!("Building workspace...");
+        let _ = std::io::stdout().flush();
     }
-    let _ = std::io::stdout().flush();
     let output = match config.build_type {
         BuildType::Release => Command::new("cargo")
             // TODO: Currently when doing a release build there is an issue with wit.
