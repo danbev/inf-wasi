@@ -45,9 +45,38 @@ tested:
 ```console
 $ cd /path/to/jco
 $ sudo npm link
+$ sudo npm link ./packages/preview2-shim/
 ```
 The from this directory link:
 ```console
 $ npm link @bytecodealliance/jco
+$ ln -s /usr/local/lib/node_modules/@bytecodealliance/preview2-shim node_modules/@bytecodealliance/preview2-shim
+```
+And this would have created the following links:
+```console
+$ ls -l /usr/local/lib/node_modules/@bytecodealliance/
+jco -> ../../../../../home/danielbevenius/work/wasm/jco
+preview2-shim -> ../../../../../home/danielbevenius/work/wasm/jco/packages/preview2-shim
 ```
 
+### shims
+I'm currently looking into how to shim the `wasi:nn` namespace. At the moment
+if we run `npm run bindings` there are a number of TypeScript definition file
+generated for the `wasi:nn` namespace:
+```console
+dist/interfaces/wasi-nn-errors.d.ts
+dist/interfaces/wasi-nn-graph.d.ts
+dist/interfaces/wasi-nn-inference.d.ts
+dist/interfaces/wasi-nn-tensor.d.ts
+```
+Now, just keep in mind that these are just the TypeScript definition files and
+they only describe types and are not the actual implementation. 
+If we look in dist/composed.js we can see the following import:
+```js
+import { graph, inference } from '@bytecodealliance/preview2-shim/nn';
+```
+So this is expecting a the @bytecodealliance/preview2-shim package to have an
+nn module which exports the graph and inference objects.
+And since we 
+
+With the npm links set up I get the following:

@@ -10,10 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@bytecodealliance/jco": "^1.0.3"
+    "@bytecodealliance/jco": "^1.1.1",
+    "@bytecodealliance/preview2-shim": "^0.16.1"
   },
   "config": {
-    "wasm_file": "../../generator/working/target/test-composed.wasm"
+    "wasm_file": "../../test-composed.wasm"
   },
   "scripts": {
       "bindings": "npx jco transpile $npm_package_config_wasm_file -o dist --name composed --map inf:wasi/config-types=./config-types.js",
