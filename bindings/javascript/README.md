@@ -37,3 +37,17 @@ Transpiled JS Component Files:
 This could then be included in a user application. Currently this does not
 work as there is now shim for `wasi:nn` but once that is in place this should
 work.
+
+
+### Development
+It can be useful to npm link jco to this project so that changes to jco can be
+tested:
+```console
+$ cd /path/to/jco
+$ sudo npm link
+```
+The from this directory link:
+```console
+$ npm link @bytecodealliance/jco
+```
+
