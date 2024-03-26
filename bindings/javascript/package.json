@@ -13,7 +13,7 @@
     "@bytecodealliance/jco": "^1.0.3"
   },
   "config": {
-    "wasm_file": "../../generator/working/target/sample-composed.wasm"
+    "wasm_file": "../../generator/working/target/test-composed.wasm"
   },
   "scripts": {
       "bindings": "npx jco transpile $npm_package_config_wasm_file -o dist --name composed --map inf:wasi/config-types=./config-types.js",
