@@ -1,3 +1,4 @@
-import inference from './dist/composed.js';
-const result = inference.compute("What is the Capital of Germany?");
+import { compute } from './dist/composed.js';
+console.log("JavaScript inference...");
+const result = compute("What is the Capital of Germany?");
 console.log(`Result: ${result}`);
