@@ -1,5 +1,6 @@
 ## JavaScript bindings
-This generates bindings for the composed module for JavaScript.
+This generates bindings for the composed module for JavaScript using 
+the JavaScript Component tookchain (JCO).
 
 ### Generate bindings
 ```console
@@ -71,12 +72,62 @@ dist/interfaces/wasi-nn-tensor.d.ts
 ```
 Now, just keep in mind that these are just the TypeScript definition files and
 they only describe types and are not the actual implementation. 
+
 If we look in dist/composed.js we can see the following import:
 ```js
 import { graph, inference } from '@bytecodealliance/preview2-shim/nn';
 ```
 So this is expecting a the @bytecodealliance/preview2-shim package to have an
 nn module which exports the graph and inference objects.
-And since we 
+We can add this nn.js file to the preview2-shim package and add exports for the
+graph and inference objects.
 
-With the npm links set up I get the following:
+I've also added the following to transpile.js:
+```console
+$ git diff src/cmd/transpile.js
+diff --git a/src/cmd/transpile.js b/src/cmd/transpile.js
+index 1cc9a39..8b26021 100644
+--- a/src/cmd/transpile.js
++++ b/src/cmd/transpile.js
+@@ -116,6 +116,7 @@ export async function transpileComponent (component, opts = {}) {
+       'wasi:io/*': '@bytecodealliance/preview2-shim/io#*',
+       'wasi:random/*': '@bytecodealliance/preview2-shim/random#*',
+       'wasi:sockets/*': '@bytecodealliance/preview2-shim/sockets#*',
++      'wasi:nn/*': '@bytecodealliance/preview2-shim/nn#*',
+     }, opts.map || {});
+   }
+```
+
+With that in place we can call the compute function and see that the inf-wasi
+inference component gets called:
+```console
+$ npm run compute
+
+> javascript@1.0.0 compute
+> node app.js
+
+JavaScript inference...
+Inference Component Running inference
+
+thread '<unnamed>' panicked at engine/src/engine.rs:9:1:
+called `Option::unwrap()` on a `None` value
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+wasm://wasm/00080b96:1
+
+
+RuntimeError: unreachable
+    at __rust_start_panic (wasm://wasm/00080b96:wasm-function[172]:0xc938)
+    at rust_panic (wasm://wasm/00080b96:wasm-function[164]:0xc743)
+    at _ZN3std9panicking20rust_panic_with_hook17h9c783872fdb901ccE (wasm://wasm/00080b96:wasm-function[163]:0xc676)
+    at _ZN3std9panicking19begin_panic_handler28_$u7b$$u7b$closure$u7d$$u7d$17h6f255f7e971e1b6bE (wasm://wasm/00080b96:wasm-function[152]:0xba77)
+    at _ZN3std10sys_common9backtrace26__rust_end_short_backtrace17h1f5fd5151e12b76fE (wasm://wasm/00080b96:wasm-function[151]:0xb9dd)
+    at rust_begin_unwind (wasm://wasm/00080b96:wasm-function[158]:0xc058)
+    at _ZN4core9panicking9panic_fmt17h4ed481ff677a9793E (wasm://wasm/00080b96:wasm-function[223]:0x10f95)
+    at _ZN4core9panicking5panic17h55c180fe4f8d6e31E (wasm://wasm/00080b96:wasm-function[228]:0x11559)
+    at _ZN6engine6engine7exports3inf4wasi6engine36_export_method_engine_inference_cabi17h3e22369a2dd08530E (wasm://wasm/00080b96:wasm-function[28]:0x23d2)
+    at inf:wasi/engine#[method]engine.inference (wasm://wasm/00080b96:wasm-function[44]:0x3ae3)
+
+Node.js v20.10.0
+```
+So this looks somewhat promising. Next step is to use the correct signatures
+for the functions in the nn.js file.
