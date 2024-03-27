@@ -129,5 +129,3 @@ RuntimeError: unreachable
 
 Node.js v20.10.0
 ```
-So this looks somewhat promising. Next step is to use the correct signatures
-for the functions in the nn.js file.
