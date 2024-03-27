@@ -129,3 +129,5 @@ RuntimeError: unreachable
 
 Node.js v20.10.0
 ```
+The same component works with Wasmtime so I'm not sure what is going on here.
+Could there be something with the generated bindings that is causing this?
