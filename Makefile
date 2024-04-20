@@ -140,7 +140,7 @@ install-wasm32-wasi:
 .PHONY: download-model
 download-model:
 	@mkdir -p models 
-	curl -LO https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf \
+	curl -L https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf \
 		--output models/llama-2-7b-chat.Q5_K_M.gguf
 
 ### Component Generator target
