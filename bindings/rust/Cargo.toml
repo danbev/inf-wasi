@@ -5,9 +5,9 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.71"
-wasmtime = { path = "/home/danielbevenius/work/wasm/wasmtime/crates/wasmtime", features = ["component-model"] }
-wasmtime-wasi = { path = "/home/danielbevenius/work/wasm/wasmtime/crates/wasi"}
-wasmtime-wasi-nn = { path = "/home/danielbevenius/work/wasm/wasmtime/crates/wasi-nn", features = ["llama_cpp"] }
+wasmtime = { git = "https://github.com/danbev/wasmtime.git", branch="llama.cpp-backend", features = ["component-model"] }
+wasmtime-wasi = { git = "https://github.com/danbev/wasmtime.git", branch="llama.cpp-backend"}
+wasmtime-wasi-nn = { git = "https://github.com/danbev/wasmtime.git", branch="llama.cpp-backend", features = ["llama_cpp"] }
 wasi-common = "18.0.2"
 cap-std = "3.0.0"
 tokio = { version = "1", features = ["full"] }

@@ -482,6 +482,7 @@ dependencies = [
 [[package]]
 name = "cranelift-bforest"
 version = "0.107.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "cranelift-entity 0.107.0",
 ]
@@ -489,6 +490,7 @@ dependencies = [
 [[package]]
 name = "cranelift-codegen"
 version = "0.107.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "bumpalo",
  "cranelift-bforest",
@@ -508,6 +510,7 @@ dependencies = [
 [[package]]
 name = "cranelift-codegen-meta"
 version = "0.107.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "cranelift-codegen-shared",
 ]
@@ -515,10 +518,12 @@ dependencies = [
 [[package]]
 name = "cranelift-codegen-shared"
 version = "0.107.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 
 [[package]]
 name = "cranelift-control"
 version = "0.107.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "arbitrary",
 ]
@@ -536,6 +541,7 @@ dependencies = [
 [[package]]
 name = "cranelift-entity"
 version = "0.107.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "serde",
  "serde_derive",
@@ -544,6 +550,7 @@ dependencies = [
 [[package]]
 name = "cranelift-frontend"
 version = "0.107.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "cranelift-codegen",
  "log",
@@ -554,10 +561,12 @@ dependencies = [
 [[package]]
 name = "cranelift-isle"
 version = "0.107.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 
 [[package]]
 name = "cranelift-native"
 version = "0.107.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "cranelift-codegen",
  "libc",
@@ -567,6 +576,7 @@ dependencies = [
 [[package]]
 name = "cranelift-wasm"
 version = "0.107.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "cranelift-codegen",
  "cranelift-entity 0.107.0",
@@ -1443,6 +1453,7 @@ checksum = "01cda141df6706de531b6c46c3a33ecca755538219bd484262fa09410c13539c"
 [[package]]
 name = "llm-chain"
 version = "0.13.0"
+source = "git+https://github.com/danbev/llm-chain.git?branch=wasmtime-backend-updates#af3a1c153e99f8a8a589ceed4ea0fd7342a97ce0"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -1467,6 +1478,7 @@ dependencies = [
 [[package]]
 name = "llm-chain-llama"
 version = "0.13.0"
+source = "git+https://github.com/danbev/llm-chain.git?branch=wasmtime-backend-updates#af3a1c153e99f8a8a589ceed4ea0fd7342a97ce0"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -1482,6 +1494,7 @@ dependencies = [
 [[package]]
 name = "llm-chain-llama-sys"
 version = "0.13.0"
+source = "git+https://github.com/danbev/llm-chain.git?branch=wasmtime-backend-updates#af3a1c153e99f8a8a589ceed4ea0fd7342a97ce0"
 dependencies = [
  "bindgen",
 ]
@@ -2920,6 +2933,7 @@ dependencies = [
 [[package]]
 name = "wasi-nn"
 version = "0.7.0"
+source = "git+https://github.com/danbev/wasi-nn-bindings.git?branch=wit-update-with-ggml#e0059c1afef19dfed164bb61e90601234a339347"
 dependencies = [
  "thiserror",
  "wit-bindgen 0.22.0",
@@ -3089,6 +3103,7 @@ dependencies = [
 [[package]]
 name = "wasmtime"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "addr2line",
  "anyhow",
@@ -3142,6 +3157,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-asm-macros"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "cfg-if",
 ]
@@ -3149,6 +3165,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-cache"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "base64",
@@ -3167,6 +3184,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-component-macro"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "proc-macro2",
@@ -3180,10 +3198,12 @@ dependencies = [
 [[package]]
 name = "wasmtime-component-util"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 
 [[package]]
 name = "wasmtime-cranelift"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "cfg-if",
@@ -3207,6 +3227,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-cranelift-shared"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "cranelift-codegen",
@@ -3242,6 +3263,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-environ"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "bincode",
@@ -3266,6 +3288,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-fiber"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "cc",
@@ -3279,6 +3302,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-jit-debug"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "object 0.33.0",
  "once_cell",
@@ -3300,6 +3324,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-jit-icache-coherence"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "cfg-if",
  "libc",
@@ -3336,6 +3361,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-runtime"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "cc",
@@ -3364,6 +3390,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-slab"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 
 [[package]]
 name = "wasmtime-types"
@@ -3381,6 +3408,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-types"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "cranelift-entity 0.107.0",
  "serde",
@@ -3403,6 +3431,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-versioned-export-macros"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3412,6 +3441,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-wasi"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3441,6 +3471,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-wasi-nn"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "backtrace",
@@ -3459,6 +3490,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-winch"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "cranelift-codegen",
@@ -3475,6 +3507,7 @@ dependencies = [
 [[package]]
 name = "wasmtime-wit-bindgen"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "heck",
@@ -3491,6 +3524,7 @@ checksum = "7f4cbfb052d66f03603a9b77f18171ea245c7805714caad370a549a6344bf86b"
 [[package]]
 name = "wasmtime-wmemcheck"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 
 [[package]]
 name = "wast"
@@ -3563,6 +3597,7 @@ dependencies = [
 [[package]]
 name = "wiggle"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3591,6 +3626,7 @@ dependencies = [
 [[package]]
 name = "wiggle-generate"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "heck",
@@ -3616,6 +3652,7 @@ dependencies = [
 [[package]]
 name = "wiggle-macro"
 version = "20.0.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3657,6 +3694,7 @@ checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
 [[package]]
 name = "winch-codegen"
 version = "0.18.0"
+source = "git+https://github.com/danbev/wasmtime.git?branch=llama.cpp-backend#53e8ff850b1aca50aeb5cfc767f7fcc6c80d1c9e"
 dependencies = [
  "anyhow",
  "cranelift-codegen",
