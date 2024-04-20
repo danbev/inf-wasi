@@ -6,7 +6,6 @@ edition = "2021"
 [dependencies]
 serde_json = "1.0"
 wit-bindgen = { workspace = true }
-#wasi-nn = { git = "https://github.com/danbev/wasi-nn-bindings.git", branch = "wit-update" }
 wasi-nn = { git = "https://github.com/danbev/wasi-nn-bindings.git", branch="wit-update-with-ggml" }
 
 [dev-dependencies]
